@@ -69,30 +69,16 @@
                     clearable
                     class="mb-3"
                   />
-                  <v-row dense>
-                    <v-col cols="6">
-                      <v-text-field
-                        v-model.number="idadeMin"
-                        label="Idade mín."
-                        type="number"
-                        variant="outlined"
-                        density="comfortable"
-                        min="0"
-                        max="120"
-                      />
-                    </v-col>
-                    <v-col cols="6">
-                      <v-text-field
-                        v-model.number="idadeMax"
-                        label="Idade máx."
-                        type="number"
-                        variant="outlined"
-                        density="comfortable"
-                        min="0"
-                        max="120"
-                      />
-                    </v-col>
-                  </v-row>
+                  <v-select
+                    v-model="faixaEtaria"
+                    :items="faixaOptions"
+                    item-title="label"
+                    item-value="value"
+                    label="Faixa etária"
+                    variant="outlined"
+                    density="comfortable"
+                    clearable
+                  />
                 </v-expansion-panel-text>
               </v-expansion-panel>
             </v-expansion-panels>
@@ -198,9 +184,8 @@ const examinadoresStore = useExaminadoresStore()
 
 const nic = ref('')
 const examinadorId = ref<number | null>(null)
-const sexoFiltro = ref<'M' | 'F' | null>(null)
-const idadeMin = ref<number | null>(null)
-const idadeMax = ref<number | null>(null)
+const sexoFiltro = ref<1 | 2 | null>(null)
+const faixaEtaria = ref<string | null>(null)
 const teeth = ref<ToothState[]>([])
 
 const nicError = ref('')
@@ -223,9 +208,23 @@ const loadingNovoExaminador = ref(false)
 
 const sexoOptions = [
   { title: 'Ambos', value: null },
-  { title: 'Masculino', value: 'M' },
-  { title: 'Feminino', value: 'F' },
+  { title: 'Masculino', value: 1 },
+  { title: 'Feminino', value: 2 },
 ]
+
+const faixaOptions = [
+  { label: '12 anos',       value: '12'    },
+  { label: '15–19 anos',    value: '15-19' },
+  { label: '35–44 anos',    value: '35-44' },
+  { label: '65–74 anos',    value: '65-74' },
+]
+
+const FAIXA_MAP: Record<string, { min: number; max: number | null }> = {
+  '12':    { min: 12, max: 12 },
+  '15-19': { min: 15, max: 19 },
+  '35-44': { min: 35, max: 44 },
+  '65-74': { min: 65, max: 74 },
+}
 
 // ─── Validation ───────────────────────────────────────────────────────────────
 
@@ -277,16 +276,18 @@ async function calcular() {
       .filter((t) => t.statusInformado !== null || t.ignorar)
       .map((t) => ({
         numeroIso: t.numeroIso,
-        statusInformado: t.statusInformado,
+        statusInformado: t.statusInformado ?? 0,
         ignorar: t.ignorar,
       }))
+
+    const faixa = faixaEtaria.value ? FAIXA_MAP[faixaEtaria.value] : null
 
     const { id } = await createBusca({
       nic: nic.value,
       examinadorId: examinadorId.value!,
       sexoFiltro: sexoFiltro.value ?? undefined,
-      idadeMin: idadeMin.value ?? undefined,
-      idadeMax: idadeMax.value ?? undefined,
+      idadeMin: faixa?.min ?? undefined,
+      idadeMax: faixa?.max ?? undefined,
       dentes: dentesPayload,
     })
 
@@ -294,12 +295,18 @@ async function calcular() {
   } catch (err: unknown) {
     if (axios.isAxiosError(err)) {
       const status = err.response?.status
+      const data = err.response?.data ?? {}
       if (status === 409) {
         nicError.value = 'Este NIC já possui uma busca ativa'
         showError('Este NIC já possui uma busca ativa. Use um NIC diferente ou consulte o histórico.')
+      } else if (status === 422) {
+        const erros = data.erros as Record<string, string> | undefined
+        const detalhe = erros
+          ? Object.entries(erros).map(([k, v]) => `${k}: ${v}`).join(' | ')
+          : (data.detail ?? 'Dados inválidos')
+        showError(`Erro de validação — ${detalhe}`)
       } else {
-        const msg = err.response?.data?.message ?? err.message
-        showError(`Erro ao calcular: ${msg}`)
+        showError(data.detail ?? data.message ?? err.message ?? 'Erro inesperado.')
       }
     } else {
       showError('Erro inesperado. Tente novamente.')

@@ -34,7 +34,7 @@ export interface DenteResult {
 export interface CreateBuscaDto {
   nic: string
   examinadorId: number
-  sexoFiltro?: 'M' | 'F' | null
+  sexoFiltro?: 1 | 2 | null
   idadeMin?: number | null
   idadeMax?: number | null
   dentes: DenteBusca[]
