@@ -70,14 +70,16 @@
                     class="mb-3"
                   />
                   <v-select
-                    v-model="faixaEtaria"
+                    v-model="faixasEtarias"
                     :items="faixaOptions"
                     item-title="label"
                     item-value="value"
-                    label="Faixa etária"
+                    label="Faixas etárias"
                     variant="outlined"
                     density="comfortable"
-                    clearable
+                    multiple
+                    chips
+                    closable-chips
                   />
                 </v-expansion-panel-text>
               </v-expansion-panel>
@@ -185,7 +187,7 @@ const examinadoresStore = useExaminadoresStore()
 const nic = ref('')
 const examinadorId = ref<number | null>(null)
 const sexoFiltro = ref<1 | 2 | null>(null)
-const faixaEtaria = ref<string | null>(null)
+const faixasEtarias = ref<string[]>([])
 const teeth = ref<ToothState[]>([])
 
 const nicError = ref('')
@@ -219,7 +221,7 @@ const faixaOptions = [
   { label: '65–74 anos',    value: '65-74' },
 ]
 
-const FAIXA_MAP: Record<string, { min: number; max: number | null }> = {
+const FAIXA_MAP: Record<string, { min: number; max: number }> = {
   '12':    { min: 12, max: 12 },
   '15-19': { min: 15, max: 19 },
   '35-44': { min: 35, max: 44 },
@@ -280,14 +282,16 @@ async function calcular() {
         ignorar: t.ignorar,
       }))
 
-    const faixa = faixaEtaria.value ? FAIXA_MAP[faixaEtaria.value] : null
+    const ranges = faixasEtarias.value.map((v) => FAIXA_MAP[v])
+    const idadeMin = ranges.length ? Math.min(...ranges.map((r) => r.min)) : undefined
+    const idadeMax = ranges.length ? Math.max(...ranges.map((r) => r.max)) : undefined
 
     const { id } = await createBusca({
       nic: nic.value,
       examinadorId: examinadorId.value!,
       sexoFiltro: sexoFiltro.value ?? undefined,
-      idadeMin: faixa?.min ?? undefined,
-      idadeMax: faixa?.max ?? undefined,
+      idadeMin,
+      idadeMax,
       dentes: dentesPayload,
     })
 
