@@ -80,7 +80,16 @@
                     multiple
                     chips
                     closable-chips
-                  />
+                  >
+                    <template #prepend-item>
+                      <v-list-item
+                        title="Todas as faixas"
+                        :prepend-icon="todasSelecionadas ? 'mdi-checkbox-marked' : 'mdi-checkbox-blank-outline'"
+                        @click="toggleTodas"
+                      />
+                      <v-divider class="mt-1" />
+                    </template>
+                  </v-select>
                 </v-expansion-panel-text>
               </v-expansion-panel>
             </v-expansion-panels>
@@ -215,11 +224,21 @@ const sexoOptions = [
 ]
 
 const faixaOptions = [
-  { label: '12 anos',       value: '12'    },
-  { label: '15–19 anos',    value: '15-19' },
-  { label: '35–44 anos',    value: '35-44' },
-  { label: '65–74 anos',    value: '65-74' },
+  { label: '12 anos',    value: '12'    },
+  { label: '15–19 anos', value: '15-19' },
+  { label: '35–44 anos', value: '35-44' },
+  { label: '65–74 anos', value: '65-74' },
 ]
+
+const ALL_FAIXAS = faixaOptions.map((f) => f.value)
+
+const todasSelecionadas = computed(
+  () => ALL_FAIXAS.every((v) => faixasEtarias.value.includes(v)),
+)
+
+function toggleTodas() {
+  faixasEtarias.value = todasSelecionadas.value ? [] : [...ALL_FAIXAS]
+}
 
 const FAIXA_MAP: Record<string, { min: number; max: number }> = {
   '12':    { min: 12, max: 12 },
