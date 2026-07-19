@@ -10,7 +10,7 @@
           color="primary"
           variant="tonal"
           size="small"
-          prepend-icon="mdi-arrow-up-circle-outline"
+          prepend-icon="mdi-cursor-default-click-outline"
           @click="openArchMenu('superior')"
         >
           Arcada Superior
@@ -19,7 +19,7 @@
           color="primary"
           variant="tonal"
           size="small"
-          prepend-icon="mdi-arrow-down-circle-outline"
+          prepend-icon="mdi-cursor-default-click-outline"
           @click="openArchMenu('inferior')"
         >
           Arcada Inferior
@@ -386,7 +386,7 @@ const LEGEND = [
 
 .svg-container {
   width: 100%;
-  max-width: 360px;
+  max-width: 320px;
 }
 
 .odontogram-svg {
@@ -419,7 +419,7 @@ const LEGEND = [
 
 /* ── Labels ── */
 .tooth-label {
-  font-size: 8.5px;
+  font-size: 11px;
   font-family: system-ui, sans-serif;
   font-weight: 700;
   pointer-events: none;
