@@ -66,7 +66,7 @@ export interface BuscaDetalhe {
   nic: string
   examinadorId: number
   examinador: string
-  sexoFiltro?: 'M' | 'F' | null
+  sexoFiltro?: 1 | 2 | null
   idadeMin?: number | null
   idadeMax?: number | null
   criadoEm: string
@@ -110,6 +110,41 @@ export const RARIDADE_COLORS: Record<string, string> = {
   raro: 'warning',
   incomum: 'yellow-darken-2',
   comum: 'success',
+}
+
+export const TOOTH_NAMES: Record<number, string> = {
+  11: 'Incisivo central superior direito',
+  12: 'Incisivo lateral superior direito',
+  13: 'Canino superior direito',
+  14: '1º pré-molar superior direito',
+  15: '2º pré-molar superior direito',
+  16: '1º molar superior direito',
+  17: '2º molar superior direito',
+  18: '3º molar superior direito',
+  21: 'Incisivo central superior esquerdo',
+  22: 'Incisivo lateral superior esquerdo',
+  23: 'Canino superior esquerdo',
+  24: '1º pré-molar superior esquerdo',
+  25: '2º pré-molar superior esquerdo',
+  26: '1º molar superior esquerdo',
+  27: '2º molar superior esquerdo',
+  28: '3º molar superior esquerdo',
+  31: 'Incisivo central inferior esquerdo',
+  32: 'Incisivo lateral inferior esquerdo',
+  33: 'Canino inferior esquerdo',
+  34: '1º pré-molar inferior esquerdo',
+  35: '2º pré-molar inferior esquerdo',
+  36: '1º molar inferior esquerdo',
+  37: '2º molar inferior esquerdo',
+  38: '3º molar inferior esquerdo',
+  41: 'Incisivo central inferior direito',
+  42: 'Incisivo lateral inferior direito',
+  43: 'Canino inferior direito',
+  44: '1º pré-molar inferior direito',
+  45: '2º pré-molar inferior direito',
+  46: '1º molar inferior direito',
+  47: '2º molar inferior direito',
+  48: '3º molar inferior direito',
 }
 
 export const RARIDADE_LABELS: Record<string, string> = {

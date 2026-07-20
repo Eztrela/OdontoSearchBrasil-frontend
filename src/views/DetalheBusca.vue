@@ -76,7 +76,7 @@
               <v-list-item v-if="busca.sexoFiltro">
                 <v-list-item-title class="text-caption text-medium-emphasis">Sexo</v-list-item-title>
                 <v-list-item-subtitle class="text-body-2 mt-0">
-                  {{ busca.sexoFiltro === 'M' ? 'Masculino' : 'Feminino' }}
+                  {{ busca.sexoFiltro === 1 ? 'Masculino' : 'Feminino' }}
                 </v-list-item-subtitle>
               </v-list-item>
               <v-list-item v-if="busca.idadeMin != null || busca.idadeMax != null">
@@ -102,7 +102,16 @@
           </v-card>
 
           <!-- Result card -->
-          <ResultadoCard v-if="busca.resultado" :resultado="busca.resultado" />
+          <ResultadoCard
+            v-if="busca.resultado"
+            :resultado="busca.resultado"
+            :nic="busca.nic"
+            :examinador="busca.examinador"
+            :sexo-filtro="busca.sexoFiltro"
+            :idade-min="busca.idadeMin"
+            :idade-max="busca.idadeMax"
+            :dentes="busca.dentes"
+          />
 
           <v-alert
             v-else-if="!busca.canceladaEm"
