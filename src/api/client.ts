@@ -29,7 +29,11 @@ export const getBuscas = (): Promise<BuscaListItem[]> =>
   api.get<BuscaListItem[]>('/buscas').then((r) => r.data)
 
 export const getBusca = (id: number): Promise<BuscaDetalhe> =>
-  api.get<BuscaDetalhe>(`/buscas/${id}`).then((r) => r.data)
+  api.get<any>(`/buscas/${id}`).then((r) => {
+    const d = r.data
+    // Backward compat: old backend serializes the field as "examinadorNome"
+    return { ...d, examinador: d.examinador ?? d.examinadorNome ?? '' } as BuscaDetalhe
+  })
 
 export const createBusca = (dto: CreateBuscaDto): Promise<{ id: number }> =>
   api.post<{ id: number }>('/buscas', dto).then((r) => r.data)

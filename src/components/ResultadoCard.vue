@@ -23,7 +23,8 @@
         <div class="info-cell">
           <v-icon size="15" class="mr-1 text-medium-emphasis">mdi-account-outline</v-icon>
           <span class="text-caption text-medium-emphasis mr-1">Examinador</span>
-          <span class="text-body-2 font-weight-medium">{{ examinador }}</span>
+          <span v-if="examinador" class="text-body-2 font-weight-medium">{{ examinador }}</span>
+          <span v-else class="text-caption text-disabled font-style-italic">não informado</span>
         </div>
         <div class="info-cell">
           <v-icon size="15" class="mr-1 text-medium-emphasis">mdi-file-document-outline</v-icon>
@@ -42,14 +43,8 @@
           <v-chip size="x-small" variant="tonal" color="secondary">
             Sexo: {{ sexoLabel }}
           </v-chip>
-          <v-chip
-            v-for="faixa in faixasNormalizadas"
-            :key="faixa"
-            size="x-small"
-            variant="tonal"
-            color="secondary"
-          >
-            {{ faixa }}
+          <v-chip size="x-small" variant="tonal" color="secondary">
+            Faixa etária: {{ faixasLabel }}
           </v-chip>
         </div>
       </div>
@@ -162,10 +157,19 @@ const faixasNormalizadas = computed((): string[] => {
   if (props.faixas?.length) return props.faixas
   const min = props.idadeMin ?? null
   const max = props.idadeMax ?? null
-  if (min === null && max === null) return ['Todas as faixas']
+  if (min === null && max === null) return []
   return FAIXA_DEFS
     .filter(f => (min === null || f.max >= min) && (max === null || f.min <= max))
     .map(f => f.label)
+})
+
+const faixasLabel = computed((): string => {
+  const faixas = faixasNormalizadas.value
+  if (!faixas.length) return 'Todas'
+  // Short form: strip " anos" from all but the last, then join
+  if (faixas.length === 1) return faixas[0]
+  const semAnos = faixas.slice(0, -1).map(f => f.replace(' anos', ''))
+  return `${semAnos.join(', ')} e ${faixas[faixas.length - 1]}`
 })
 
 // ── Dentes table ──────────────────────────────────────────────────────────────
