@@ -10,7 +10,7 @@
           color="primary"
           variant="tonal"
           size="small"
-          prepend-icon="mdi-cursor-default-click-outline"
+          prepend-icon="mdi-checkbox-multiple-marked-outline"
           @click="openArchMenu('superior')"
         >
           Arcada Superior
@@ -19,7 +19,7 @@
           color="primary"
           variant="tonal"
           size="small"
-          prepend-icon="mdi-cursor-default-click-outline"
+          prepend-icon="mdi-checkbox-multiple-marked-outline"
           @click="openArchMenu('inferior')"
         >
           Arcada Inferior
@@ -385,14 +385,18 @@ const LEGEND = [
 }
 
 .svg-container {
+  display: flex;
+  justify-content: center;
   width: 100%;
-  max-width: 320px;
 }
 
 .odontogram-svg {
-  width: 100%;
-  height: auto;
   display: block;
+  /* Constrains by both a fixed width cap and by the available viewport height.
+     The viewBox ratio is 400:680, so height-derived width = (vh - overhead) × 400/680.
+     We take whichever bound is tighter. */
+  width: min(280px, calc((100vh - 320px) * 400 / 680));
+  height: auto;
   overflow: visible;
 }
 
@@ -419,7 +423,7 @@ const LEGEND = [
 
 /* ── Labels ── */
 .tooth-label {
-  font-size: 11px;
+  font-size: 13px;
   font-family: system-ui, sans-serif;
   font-weight: 700;
   pointer-events: none;

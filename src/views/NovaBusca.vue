@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="text-h5 font-weight-bold mb-6">
+    <h1 class="text-h5 font-weight-bold mb-3">
       <v-icon icon="mdi-magnify" class="mr-2" color="primary" />
       Nova Busca de Identificação
     </h1>
