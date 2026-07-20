@@ -20,7 +20,7 @@
           icon="mdi-arrow-left"
           variant="text"
           :to="{ name: 'historico' }"
-          class="mr-1"
+          class="mr-1 no-print"
         />
         <h1 class="text-h5 font-weight-bold">
           <v-icon icon="mdi-file-search" class="mr-2" color="primary" />
@@ -36,22 +36,34 @@
         >
           Cancelada
         </v-chip>
-        <v-btn
-          v-else
-          color="error"
-          variant="outlined"
-          prepend-icon="mdi-cancel"
-          size="small"
-          :loading="cancelLoading"
-          @click="confirmarCancelamento = true"
-        >
-          Cancelar busca
-        </v-btn>
+        <template v-else>
+          <v-btn
+            color="primary"
+            variant="tonal"
+            prepend-icon="mdi-file-pdf-box"
+            size="small"
+            class="mr-2 no-print"
+            @click="exportarPdf"
+          >
+            Exportar PDF
+          </v-btn>
+          <v-btn
+            color="error"
+            variant="outlined"
+            prepend-icon="mdi-cancel"
+            size="small"
+            :loading="cancelLoading"
+            class="no-print"
+            @click="confirmarCancelamento = true"
+          >
+            Cancelar busca
+          </v-btn>
+        </template>
       </div>
 
       <v-row>
-        <!-- Details card -->
-        <v-col cols="12" md="4">
+        <!-- Details card (hidden on print — info duplicated in ResultadoCard) -->
+        <v-col cols="12" md="4" class="no-print">
           <v-card variant="outlined" class="mb-4">
             <v-card-title class="text-subtitle-1 pa-4 pb-2">Informações</v-card-title>
             <v-list density="compact" class="pa-2">
@@ -89,8 +101,8 @@
           </v-card>
         </v-col>
 
-        <!-- Odontogram -->
-        <v-col cols="12" md="8">
+        <!-- Odontogram (full width on print) -->
+        <v-col cols="12" md="8" class="print-full-width">
           <v-card variant="outlined">
             <v-card-title class="text-subtitle-1 pa-4 pb-2">Diagrama Odontológico</v-card-title>
             <v-card-text class="pa-2">
@@ -216,4 +228,69 @@ function showError(msg: string) {
   snackbarMsg.value = msg
   snackbar.value = true
 }
+
+function exportarPdf() {
+  window.print()
+}
 </script>
+
+<style>
+/* ── Print styles ── */
+@media print {
+  /* Hide app chrome and navigation */
+  .v-app-bar,
+  .v-navigation-drawer,
+  .v-footer,
+  .no-print {
+    display: none !important;
+  }
+
+  /* Remove main padding/margin added by Vuetify layout */
+  .v-main {
+    padding: 0 !important;
+  }
+
+  /* Print header injected via ::before on the page */
+  body::before {
+    content: 'OdontoSearch Brasil — Laudo de Identificação por Padrão Dentário';
+    display: block;
+    font-size: 10pt;
+    font-weight: bold;
+    color: #333;
+    border-bottom: 1pt solid #ccc;
+    padding-bottom: 6pt;
+    margin-bottom: 12pt;
+  }
+
+  /* Ensure cards print without shadows and with borders */
+  .v-card {
+    box-shadow: none !important;
+    border: 1pt solid #ddd !important;
+    break-inside: avoid;
+  }
+
+  /* Info sidebar is hidden; odontogram + result card take full width */
+  .print-full-width {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Let the result card stretch full width on print */
+  .resultado-card {
+    margin-top: 12pt !important;
+  }
+
+  /* Ensure text is legible */
+  * {
+    color: #000 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Status badge colors must print */
+  .v-chip {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+</style>

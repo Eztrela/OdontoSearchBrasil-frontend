@@ -129,16 +129,6 @@
           </v-card-text>
         </v-card>
 
-        <!-- Result -->
-        <ResultadoCard
-          v-if="resultado && resultadoCtx"
-          :resultado="resultado"
-          :nic="resultadoCtx.nic"
-          :examinador="resultadoCtx.examinador"
-          :sexo-filtro="resultadoCtx.sexoFiltro"
-          :faixas="resultadoCtx.faixas"
-          :dentes="resultadoCtx.dentes"
-        />
       </v-col>
     </v-row>
 
@@ -190,13 +180,14 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-import type { ToothState, ResultadoBusca, StatusDente } from '@/types'
+import { useRouter } from 'vue-router'
+import type { ToothState } from '@/types'
 import { createBusca, calcularBusca, createExaminador } from '@/api/client'
 import { useExaminadoresStore } from '@/stores'
 import Odontogram from '@/components/Odontogram.vue'
-import ResultadoCard from '@/components/ResultadoCard.vue'
 import axios from 'axios'
 
+const router = useRouter()
 const examinadoresStore = useExaminadoresStore()
 
 // ─── Form state ───────────────────────────────────────────────────────────────
@@ -210,17 +201,7 @@ const teeth = ref<ToothState[]>([])
 const nicError = ref('')
 const loading = ref(false)
 const loadingExaminadores = ref(false)
-const resultado = ref<ResultadoBusca | null>(null)
 const odontogramRef = ref<InstanceType<typeof Odontogram> | null>(null)
-
-interface ResultadoCtx {
-  nic: string
-  examinador: string
-  sexoFiltro: 1 | 2 | null
-  faixas: string[]
-  dentes: Array<{ numeroIso: number; statusInformado: StatusDente; ignorar: boolean }>
-}
-const resultadoCtx = ref<ResultadoCtx | null>(null)
 
 const snackbar = ref(false)
 const snackbarMsg = ref('')
@@ -306,7 +287,6 @@ function onTeethChange(updated: ToothState[]) {
 async function calcular() {
   if (!canSubmit.value) return
   loading.value = true
-  resultado.value = null
   nicError.value = ''
 
   try {
@@ -331,26 +311,8 @@ async function calcular() {
       dentes: dentesPayload,
     })
 
-    resultado.value = await calcularBusca(id)
-
-    const examinadorNome = examinadoresStore.examinadores.find(
-      (e) => e.id === examinadorId.value,
-    )?.nome ?? ''
-
-    resultadoCtx.value = {
-      nic: nic.value,
-      examinador: examinadorNome,
-      sexoFiltro: sexoFiltro.value,
-      faixas: faixasEtarias.value.map((v) => {
-        const opt = faixaOptions.find((o) => o.value === v)
-        return opt ? opt.label : v
-      }),
-      dentes: dentesPayload.map((d) => ({
-        numeroIso: d.numeroIso,
-        statusInformado: d.statusInformado as StatusDente,
-        ignorar: d.ignorar,
-      })),
-    }
+    await calcularBusca(id)
+    router.push({ name: 'detalhe-busca', params: { id } })
   } catch (err: unknown) {
     if (axios.isAxiosError(err)) {
       const status = err.response?.status
