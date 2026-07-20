@@ -312,7 +312,7 @@ async function calcular() {
     })
 
     await calcularBusca(id)
-    router.push({ name: 'detalhe-busca', params: { id } })
+    router.push({ name: 'relatorio-busca', params: { id } })
   } catch (err: unknown) {
     if (axios.isAxiosError(err)) {
       const status = err.response?.status
