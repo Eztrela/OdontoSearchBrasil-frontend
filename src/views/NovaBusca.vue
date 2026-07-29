@@ -12,19 +12,31 @@
           <v-card-title class="text-subtitle-1 pa-4 pb-2">Dados da Busca</v-card-title>
           <v-card-text>
             <!-- NIC -->
-            <v-text-field
-              v-model="nic"
-              label="NIC"
-              placeholder="2024/0001"
-              :rules="[nicRule]"
-              :error-messages="nicError"
-              hint="Formato: AAAA/NNNN"
-              persistent-hint
-              variant="outlined"
-              density="comfortable"
-              class="mb-3"
-              @input="nicError = ''"
-            />
+            <div class="mb-3">
+              <div class="d-flex align-start" style="gap: 8px">
+                <v-select
+                  v-model="nicAno"
+                  :items="nicAnoOptions"
+                  label="Ano"
+                  variant="outlined"
+                  density="comfortable"
+                  style="min-width: 110px; max-width: 110px"
+                  @update:model-value="nicError = ''"
+                />
+                <div class="text-h6 text-medium-emphasis" style="padding-top: 18px; flex-shrink: 0">/</div>
+                <v-text-field
+                  v-model="nicNumero"
+                  label="Número"
+                  placeholder="0001"
+                  :error-messages="nicError"
+                  variant="outlined"
+                  density="comfortable"
+                  maxlength="4"
+                  style="flex: 1"
+                  @input="nicError = ''"
+                />
+              </div>
+            </div>
 
             <!-- Examiner -->
             <v-autocomplete
@@ -192,7 +204,8 @@ const examinadoresStore = useExaminadoresStore()
 
 // ─── Form state ───────────────────────────────────────────────────────────────
 
-const nic = ref('')
+const nicAno = ref<string>(String(new Date().getFullYear()))
+const nicNumero = ref<string>('')
 const examinadorId = ref<number | null>(null)
 const sexoFiltro = ref<1 | 2 | null>(null)
 const faixasEtarias = ref<string[]>([])
@@ -212,6 +225,13 @@ const novoExaminadorDialog = ref(false)
 const novoNome = ref('')
 const novoEmail = ref('')
 const loadingNovoExaminador = ref(false)
+
+// ─── NIC options ─────────────────────────────────────────────────────────────
+
+const nicAnoOptions = (() => {
+  const year = new Date().getFullYear()
+  return Array.from({ length: year - 2010 + 1 }, (_, i) => String(year - i))
+})()
 
 // ─── Options ──────────────────────────────────────────────────────────────────
 
@@ -247,15 +267,7 @@ const FAIXA_MAP: Record<string, { min: number; max: number }> = {
 
 // ─── Validation ───────────────────────────────────────────────────────────────
 
-const NIC_REGEX = /^\d{4}\/\d{4}$/
-
-function nicRule(v: string): boolean | string {
-  if (!v) return 'NIC é obrigatório'
-  if (!NIC_REGEX.test(v)) return 'Formato: AAAA/NNNN (ex: 2024/0001)'
-  return true
-}
-
-const nicValid = computed(() => NIC_REGEX.test(nic.value))
+const nicValid = computed(() => !!nicAno.value && /^\d{1,4}$/.test(nicNumero.value))
 
 const selectedCount = computed(
   () => teeth.value.filter((t) => t.statusInformado !== null || t.ignorar).length,
@@ -303,7 +315,7 @@ async function calcular() {
     const idadeMax = ranges.length ? Math.max(...ranges.map((r) => r.max)) : undefined
 
     const { id } = await createBusca({
-      nic: nic.value,
+      nic: `${nicAno.value}/${nicNumero.value.padStart(4, '0')}`,
       examinadorId: examinadorId.value!,
       sexoFiltro: sexoFiltro.value ?? undefined,
       idadeMin,
