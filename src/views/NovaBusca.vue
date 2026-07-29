@@ -230,7 +230,7 @@ const loadingNovoExaminador = ref(false)
 
 const nicAnoOptions = (() => {
   const year = new Date().getFullYear()
-  return Array.from({ length: year - 2010 + 1 }, (_, i) => String(year - i))
+  return Array.from({ length: year - 1980 + 1 }, (_, i) => String(year - i))
 })()
 
 // ─── Options ──────────────────────────────────────────────────────────────────
