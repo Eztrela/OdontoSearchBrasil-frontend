@@ -98,11 +98,9 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { registrar } from '@/api/client'
-import { useAuthStore } from '@/stores/auth'
 import axios from 'axios'
 
 const router = useRouter()
-const authStore = useAuthStore()
 
 const formRef = ref()
 const nome = ref('')
@@ -129,15 +127,14 @@ async function cadastrar() {
   erro.value = ''
 
   try {
-    const res = await registrar({
+    await registrar({
       nome: nome.value.trim(),
       email: email.value.trim(),
       matricula: matricula.value.trim(),
       cpf: cpf.value,
       senha: senha.value,
     })
-    authStore.setAuth(res.token, { id: res.id, nome: res.nome, email: res.email, perfil: res.perfil })
-    router.push({ name: 'nova-busca' })
+    router.push({ name: 'aguarde-verificacao', query: { email: email.value.trim() } })
   } catch (err: unknown) {
     if (axios.isAxiosError(err)) {
       const data = err.response?.data ?? {}

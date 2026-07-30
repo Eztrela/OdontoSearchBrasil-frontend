@@ -15,6 +15,10 @@ export interface RegistroDto {
   senha: string
 }
 
+export interface RegistroResponse {
+  mensagem: string
+}
+
 export interface LoginDto {
   email: string
   senha: string
@@ -26,6 +30,15 @@ export interface AuthResponse {
   nome: string
   email: string
   perfil: 'EXAMINADOR' | 'DESENVOLVEDOR'
+}
+
+export interface EsqueceuSenhaDto {
+  email: string
+}
+
+export interface RedefinirSenhaDto {
+  token: string
+  novaSenha: string
 }
 
 // ─── Dente ────────────────────────────────────────────────────────────────────

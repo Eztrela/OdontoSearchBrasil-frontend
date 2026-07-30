@@ -5,6 +5,10 @@ import HomeView from '@/views/HomeView.vue'
 import GuiaView from '@/views/GuiaView.vue'
 import LoginView from '@/views/LoginView.vue'
 import CadastroView from '@/views/CadastroView.vue'
+import AguardeVerificacaoView from '@/views/AguardeVerificacaoView.vue'
+import VerificacaoEmailView from '@/views/VerificacaoEmailView.vue'
+import EsqueceuSenhaView from '@/views/EsqueceuSenhaView.vue'
+import RedefinirSenhaView from '@/views/RedefinirSenhaView.vue'
 import NovaBusca from '@/views/NovaBusca.vue'
 import HistoricoBuscas from '@/views/HistoricoBuscas.vue'
 import DetalheBusca from '@/views/DetalheBusca.vue'
@@ -14,10 +18,14 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     // ── Public ──────────────────────────────────────────────────────────────
-    { path: '/',        name: 'home',     component: HomeView },
-    { path: '/guia',    name: 'guia',     component: GuiaView },
-    { path: '/login',   name: 'login',    component: LoginView,   meta: { guestOnly: true } },
-    { path: '/cadastro',name: 'cadastro', component: CadastroView,meta: { guestOnly: true } },
+    { path: '/',                  name: 'home',                component: HomeView },
+    { path: '/guia',              name: 'guia',                component: GuiaView },
+    { path: '/login',             name: 'login',               component: LoginView,               meta: { guestOnly: true } },
+    { path: '/cadastro',          name: 'cadastro',            component: CadastroView,            meta: { guestOnly: true } },
+    { path: '/aguarde-verificacao', name: 'aguarde-verificacao', component: AguardeVerificacaoView },
+    { path: '/verificar-email',   name: 'verificar-email',     component: VerificacaoEmailView },
+    { path: '/esqueci-senha',     name: 'esqueci-senha',       component: EsqueceuSenhaView,       meta: { guestOnly: true } },
+    { path: '/redefinir-senha',   name: 'redefinir-senha',     component: RedefinirSenhaView },
 
     // ── Protected ────────────────────────────────────────────────────────────
     { path: '/busca',   name: 'nova-busca',   component: NovaBusca,       meta: { requiresAuth: true } },

@@ -35,7 +35,7 @@
             @click:append-inner="mostrarSenha = !mostrarSenha"
           />
 
-          <v-alert v-if="erro" type="error" variant="tonal" density="compact" class="mb-4">
+          <v-alert v-if="erro" :type="erroTipo" variant="tonal" density="compact" class="mb-4">
             {{ erro }}
           </v-alert>
 
@@ -48,6 +48,12 @@
           >
             Entrar
           </v-btn>
+
+          <div class="text-center mt-3">
+            <v-btn variant="text" size="small" color="primary" :to="{ name: 'esqueci-senha' }">
+              Esqueci minha senha
+            </v-btn>
+          </div>
         </v-form>
 
       </v-card-text>
@@ -78,6 +84,7 @@ const senha = ref('')
 const mostrarSenha = ref(false)
 const loading = ref(false)
 const erro = ref('')
+const erroTipo = ref<'error' | 'warning'>('error')
 
 const required = (v: string) => !!v || 'Campo obrigatório'
 const emailRule = (v: string) => /.+@.+\..+/.test(v) || 'E-mail inválido'
@@ -96,10 +103,18 @@ async function entrar() {
   } catch (err: unknown) {
     if (axios.isAxiosError(err)) {
       const status = err.response?.status
-      erro.value = status === 401
-        ? 'E-mail ou senha incorretos.'
-        : (err.response?.data?.detail ?? 'Erro ao tentar entrar.')
+      if (status === 401) {
+        erroTipo.value = 'error'
+        erro.value = 'E-mail ou senha incorretos.'
+      } else if (status === 403) {
+        erroTipo.value = 'warning'
+        erro.value = err.response?.data?.detail ?? 'E-mail não verificado. Verifique sua caixa de entrada.'
+      } else {
+        erroTipo.value = 'error'
+        erro.value = err.response?.data?.detail ?? 'Erro ao tentar entrar.'
+      }
     } else {
+      erroTipo.value = 'error'
       erro.value = 'Erro inesperado. Tente novamente.'
     }
   } finally {

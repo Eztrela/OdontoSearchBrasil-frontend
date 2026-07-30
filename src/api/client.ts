@@ -5,8 +5,11 @@ import type {
   BuscaListItem,
   BuscaDetalhe,
   RegistroDto,
+  RegistroResponse,
   LoginDto,
   AuthResponse,
+  EsqueceuSenhaDto,
+  RedefinirSenhaDto,
 } from '@/types'
 
 const api = axios.create({
@@ -39,11 +42,20 @@ api.interceptors.response.use(
 
 // ─── Auth ─────────────────────────────────────────────────────────────────────
 
-export const registrar = (dto: RegistroDto): Promise<AuthResponse> =>
-  api.post<AuthResponse>('/auth/registro', dto).then((r) => r.data)
+export const registrar = (dto: RegistroDto): Promise<RegistroResponse> =>
+  api.post<RegistroResponse>('/auth/registro', dto).then((r) => r.data)
 
 export const loginApi = (dto: LoginDto): Promise<AuthResponse> =>
   api.post<AuthResponse>('/auth/login', dto).then((r) => r.data)
+
+export const verificarEmail = (token: string): Promise<void> =>
+  api.get(`/auth/verificar?token=${token}`).then(() => undefined)
+
+export const esqueceuSenha = (dto: EsqueceuSenhaDto): Promise<void> =>
+  api.post('/auth/esqueci-senha', dto).then(() => undefined)
+
+export const redefinirSenha = (dto: RedefinirSenhaDto): Promise<void> =>
+  api.post('/auth/redefinir-senha', dto).then(() => undefined)
 
 // ─── Buscas ───────────────────────────────────────────────────────────────────
 
