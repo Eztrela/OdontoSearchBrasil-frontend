@@ -1,5 +1,6 @@
 import axios from 'axios'
 import type {
+  AtualizarBuscaDto,
   CreateBuscaDto,
   ResultadoBusca,
   BuscaListItem,
@@ -73,6 +74,9 @@ export const createBusca = (dto: CreateBuscaDto): Promise<{ id: number }> =>
 
 export const calcularBusca = (id: number): Promise<ResultadoBusca> =>
   api.post<ResultadoBusca>(`/buscas/${id}/calcular`).then((r) => r.data)
+
+export const atualizarBusca = (id: number, dto: AtualizarBuscaDto): Promise<void> =>
+  api.patch(`/buscas/${id}`, dto).then(() => undefined)
 
 export const cancelarBusca = (id: number): Promise<{ message: string }> =>
   api.patch<{ message: string }>(`/buscas/${id}/cancelar`).then((r) => r.data)

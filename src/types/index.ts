@@ -70,6 +70,13 @@ export interface CreateBuscaDto {
   dentes: DenteBusca[]
 }
 
+export interface AtualizarBuscaDto {
+  sexoFiltro?: 1 | 2 | null
+  idadeMin?: number | null
+  idadeMax?: number | null
+  dentes: DenteBusca[]
+}
+
 export interface ResultadoBusca {
   frequenciaPercent: number
   raridade: 'muito_raro' | 'raro' | 'incomum' | 'comum'

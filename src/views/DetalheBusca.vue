@@ -49,6 +49,16 @@
             Ver relatório
           </v-btn>
           <v-btn
+            color="secondary"
+            variant="tonal"
+            prepend-icon="mdi-pencil-outline"
+            size="small"
+            class="mr-2"
+            @click="abrirEdicao"
+          >
+            Editar busca
+          </v-btn>
+          <v-btn
             color="error"
             variant="outlined"
             prepend-icon="mdi-cancel"
@@ -150,6 +160,87 @@
       </v-row>
     </template>
 
+    <!-- Edit dialog -->
+    <v-dialog v-model="editDialog" max-width="960" scrollable>
+      <v-card>
+        <v-card-title class="pa-4 pb-2">
+          Editar Busca — NIC {{ busca?.nic }}
+        </v-card-title>
+
+        <v-card-text class="pa-4">
+          <!-- Filters -->
+          <v-row class="mb-2">
+            <v-col cols="12" sm="6">
+              <v-select
+                v-model="editSexo"
+                :items="sexoOptions"
+                label="Sexo"
+                variant="outlined"
+                density="comfortable"
+                clearable
+              />
+            </v-col>
+            <v-col cols="12" sm="6">
+              <v-select
+                v-model="editFaixas"
+                :items="faixaOptions"
+                item-title="label"
+                item-value="value"
+                label="Faixas etárias"
+                variant="outlined"
+                density="comfortable"
+                multiple
+                chips
+                closable-chips
+              >
+                <template #prepend-item>
+                  <v-list-item
+                    title="Todas as faixas"
+                    :prepend-icon="todasSelecionadas ? 'mdi-checkbox-marked' : 'mdi-checkbox-blank-outline'"
+                    @click="toggleTodas"
+                  />
+                  <v-divider class="mt-1" />
+                </template>
+              </v-select>
+            </v-col>
+          </v-row>
+
+          <!-- Odontogram -->
+          <v-card variant="outlined">
+            <v-card-title class="text-subtitle-2 pa-3 pb-1">
+              Diagrama Odontológico
+              <span class="text-body-2 text-medium-emphasis ml-2">
+                {{ editSelectedCount }} dente{{ editSelectedCount !== 1 ? 's' : '' }} selecionado{{ editSelectedCount !== 1 ? 's' : '' }}
+              </span>
+            </v-card-title>
+            <v-card-text class="pa-2">
+              <Odontogram
+                ref="editOdontogramRef"
+                mode="edit"
+                :dentes="editDentes"
+                @change="onEditTeethChange"
+              />
+            </v-card-text>
+          </v-card>
+        </v-card-text>
+
+        <v-card-actions class="pa-3 pt-0">
+          <v-spacer />
+          <v-btn variant="text" :disabled="recalcLoading" @click="editDialog = false">Cancelar</v-btn>
+          <v-btn
+            color="primary"
+            variant="flat"
+            prepend-icon="mdi-calculator"
+            :loading="recalcLoading"
+            :disabled="editSelectedCount === 0"
+            @click="recalcular"
+          >
+            Recalcular
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <!-- Confirm cancel dialog -->
     <v-dialog v-model="confirmarCancelamento" max-width="380">
       <v-card>
@@ -178,9 +269,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import type { BuscaDetalhe } from '@/types'
-import { getBusca, cancelarBusca } from '@/api/client'
+import { ref, computed, onMounted } from 'vue'
+import type { BuscaDetalhe, DenteResult, ToothState } from '@/types'
+import { getBusca, cancelarBusca, atualizarBusca, calcularBusca } from '@/api/client'
 import Odontogram from '@/components/Odontogram.vue'
 import ResultadoCard from '@/components/ResultadoCard.vue'
 import axios from 'axios'
@@ -194,6 +285,111 @@ const cancelLoading = ref(false)
 const confirmarCancelamento = ref(false)
 const snackbar = ref(false)
 const snackbarMsg = ref('')
+
+// ─── Edit dialog ──────────────────────────────────────────────────────────────
+
+const editDialog = ref(false)
+const recalcLoading = ref(false)
+const editOdontogramRef = ref<InstanceType<typeof Odontogram> | null>(null)
+
+const editDentes = ref<DenteResult[]>([])
+const editTeeth = ref<ToothState[]>([])
+const editSexo = ref<1 | 2 | null>(null)
+const editFaixas = ref<string[]>([])
+
+const sexoOptions = [
+  { title: 'Ambos', value: null },
+  { title: 'Masculino', value: 1 },
+  { title: 'Feminino', value: 2 },
+]
+
+const faixaOptions = [
+  { label: '12 anos',    value: '12'    },
+  { label: '15–19 anos', value: '15-19' },
+  { label: '35–44 anos', value: '35-44' },
+  { label: '65–74 anos', value: '65-74' },
+]
+
+const ALL_FAIXAS = faixaOptions.map((f) => f.value)
+
+const FAIXA_MAP: Record<string, { min: number; max: number }> = {
+  '12':    { min: 12, max: 12 },
+  '15-19': { min: 15, max: 19 },
+  '35-44': { min: 35, max: 44 },
+  '65-74': { min: 65, max: 74 },
+}
+
+const todasSelecionadas = computed(() =>
+  ALL_FAIXAS.every((v) => editFaixas.value.includes(v)),
+)
+
+function toggleTodas() {
+  editFaixas.value = todasSelecionadas.value ? [] : [...ALL_FAIXAS]
+}
+
+const editSelectedCount = computed(
+  () => editTeeth.value.filter((t) => t.statusInformado !== null || t.ignorar).length,
+)
+
+function reverseMapFaixas(idadeMin?: number | null, idadeMax?: number | null): string[] {
+  if (idadeMin == null && idadeMax == null) return []
+  return Object.entries(FAIXA_MAP)
+    .filter(([, r]) => (idadeMin == null || r.max >= idadeMin) && (idadeMax == null || r.min <= idadeMax))
+    .map(([k]) => k)
+}
+
+function abrirEdicao() {
+  if (!busca.value) return
+  editDentes.value = busca.value.dentes
+  editTeeth.value = busca.value.dentes.map((d) => ({
+    numeroIso: d.numeroIso,
+    statusInformado: d.statusInformado,
+    ignorar: d.ignorar,
+  }))
+  editSexo.value = busca.value.sexoFiltro ?? null
+  editFaixas.value = reverseMapFaixas(busca.value.idadeMin, busca.value.idadeMax)
+  editDialog.value = true
+}
+
+function onEditTeethChange(updated: ToothState[]) {
+  editTeeth.value = updated
+}
+
+async function recalcular() {
+  recalcLoading.value = true
+  try {
+    const dentesPayload = editTeeth.value
+      .filter((t) => t.statusInformado !== null || t.ignorar)
+      .map((t) => ({
+        numeroIso: t.numeroIso,
+        statusInformado: t.statusInformado,
+        ignorar: t.ignorar,
+      }))
+
+    const ranges = editFaixas.value.map((v) => FAIXA_MAP[v])
+    const idadeMin = ranges.length ? Math.min(...ranges.map((r) => r.min)) : undefined
+    const idadeMax = ranges.length ? Math.max(...ranges.map((r) => r.max)) : undefined
+
+    await atualizarBusca(props.id, {
+      sexoFiltro: editSexo.value ?? undefined,
+      idadeMin,
+      idadeMax,
+      dentes: dentesPayload,
+    })
+
+    await calcularBusca(props.id)
+    busca.value = await getBusca(props.id)
+    editDialog.value = false
+  } catch (err: unknown) {
+    if (axios.isAxiosError(err)) {
+      showError(err.response?.data?.detail ?? 'Erro ao recalcular busca.')
+    } else {
+      showError('Erro ao recalcular busca.')
+    }
+  } finally {
+    recalcLoading.value = false
+  }
+}
 
 onMounted(async () => {
   loading.value = true
