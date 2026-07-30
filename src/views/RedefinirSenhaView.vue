@@ -26,12 +26,26 @@
               prepend-inner-icon="mdi-lock-outline"
               :append-inner-icon="mostrarSenha ? 'mdi-eye-off' : 'mdi-eye'"
               :rules="[required, senhaRule]"
-              hint="Mín. 8 caracteres, maiúscula, minúscula, número e símbolo"
-              persistent-hint
-              class="mb-4"
+              class="mb-1"
               autocomplete="new-password"
               @click:append-inner="mostrarSenha = !mostrarSenha"
             />
+            <div v-if="novaSenha" class="mb-4 pl-1">
+              <div
+                v-for="cond in senhaCondicoes"
+                :key="cond.label"
+                class="d-flex align-center mb-1"
+                style="font-size: 12px"
+              >
+                <v-icon
+                  :icon="cond.ok ? 'mdi-check-circle-outline' : 'mdi-alert-circle-outline'"
+                  :color="cond.ok ? 'success' : 'error'"
+                  size="16"
+                  class="mr-1"
+                />
+                <span :class="cond.ok ? 'text-success' : 'text-error'">{{ cond.label }}</span>
+              </div>
+            </div>
             <v-alert v-if="erro" type="error" variant="tonal" density="compact" class="mb-4">
               {{ erro }}
             </v-alert>
@@ -75,10 +89,18 @@ const loading = ref(false)
 const erro = ref('')
 const concluido = ref(false)
 
+const senhaCondicoes = computed(() => [
+  { label: 'Mínimo 8 caracteres', ok: novaSenha.value.length >= 8 },
+  { label: 'Letra maiúscula (A-Z)', ok: /[A-Z]/.test(novaSenha.value) },
+  { label: 'Letra minúscula (a-z)', ok: /[a-z]/.test(novaSenha.value) },
+  { label: 'Número (0-9)', ok: /\d/.test(novaSenha.value) },
+  { label: 'Caractere especial (@$!%*?&#...)', ok: /[@$!%*?&#^()_\-+=]/.test(novaSenha.value) },
+])
+
 const required = (v: string) => !!v || 'Campo obrigatório'
 const senhaRule = (v: string) =>
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#^()_\-+=]).{8,}$/.test(v) ||
-  'Senha deve ter maiúscula, minúscula, número e caractere especial'
+  'Senha não atende todos os requisitos'
 
 async function redefinir() {
   const { valid } = await formRef.value.validate()

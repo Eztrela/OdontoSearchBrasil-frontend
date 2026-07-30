@@ -51,6 +51,16 @@
             class="mb-3"
             @input="cpf = cpf.replace(/\D/g, '').slice(0, 11)"
           />
+          <v-select
+            v-model="instituicao"
+            label="Instituição"
+            :items="instituicoes"
+            variant="outlined"
+            density="comfortable"
+            prepend-inner-icon="mdi-hospital-building"
+            :rules="[required]"
+            class="mb-3"
+          />
           <v-text-field
             v-model="senha"
             label="Senha"
@@ -60,12 +70,26 @@
             prepend-inner-icon="mdi-lock-outline"
             :append-inner-icon="mostrarSenha ? 'mdi-eye-off' : 'mdi-eye'"
             :rules="[required, senhaRule]"
-            hint="Mín. 8 caracteres, maiúscula, minúscula, número e símbolo"
-            persistent-hint
-            class="mb-4"
+            class="mb-1"
             autocomplete="new-password"
             @click:append-inner="mostrarSenha = !mostrarSenha"
           />
+          <div v-if="senha" class="mb-4 pl-1">
+            <div
+              v-for="cond in senhaCondicoes"
+              :key="cond.label"
+              class="d-flex align-center mb-1"
+              style="font-size: 12px"
+            >
+              <v-icon
+                :icon="cond.ok ? 'mdi-check-circle-outline' : 'mdi-alert-circle-outline'"
+                :color="cond.ok ? 'success' : 'error'"
+                size="16"
+                class="mr-1"
+              />
+              <span :class="cond.ok ? 'text-success' : 'text-error'">{{ cond.label }}</span>
+            </div>
+          </div>
 
           <v-alert v-if="erro" type="error" variant="tonal" density="compact" class="mb-4">
             {{ erro }}
@@ -95,7 +119,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { registrar } from '@/api/client'
 import axios from 'axios'
@@ -107,17 +131,34 @@ const nome = ref('')
 const email = ref('')
 const matricula = ref('')
 const cpf = ref('')
+const instituicao = ref('')
 const senha = ref('')
 const mostrarSenha = ref(false)
 const loading = ref(false)
 const erro = ref('')
+
+const instituicoes = [
+  'Numol/IPC - João Pessoa',
+  'Numol/IPC - Campina Grande',
+  'Numol/IPC - Patos',
+  'Numol/IPC - Guarabira',
+  'Numol/IPC - Cajazeiras',
+]
+
+const senhaCondicoes = computed(() => [
+  { label: 'Mínimo 8 caracteres', ok: senha.value.length >= 8 },
+  { label: 'Letra maiúscula (A-Z)', ok: /[A-Z]/.test(senha.value) },
+  { label: 'Letra minúscula (a-z)', ok: /[a-z]/.test(senha.value) },
+  { label: 'Número (0-9)', ok: /\d/.test(senha.value) },
+  { label: 'Caractere especial (@$!%*?&#...)', ok: /[@$!%*?&#^()_\-+=]/.test(senha.value) },
+])
 
 const required = (v: string) => !!v?.trim() || 'Campo obrigatório'
 const emailRule = (v: string) => /.+@.+\..+/.test(v) || 'E-mail inválido'
 const cpfRule = (v: string) => /^\d{11}$/.test(v) || 'CPF deve ter 11 dígitos'
 const senhaRule = (v: string) =>
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#^()_\-+=]).{8,}$/.test(v) ||
-  'Senha deve ter maiúscula, minúscula, número e caractere especial'
+  'Senha não atende todos os requisitos'
 
 async function cadastrar() {
   const { valid } = await formRef.value.validate()
@@ -132,6 +173,7 @@ async function cadastrar() {
       email: email.value.trim(),
       matricula: matricula.value.trim(),
       cpf: cpf.value,
+      instituicao: instituicao.value,
       senha: senha.value,
     })
     router.push({ name: 'aguarde-verificacao', query: { email: email.value.trim() } })

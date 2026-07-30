@@ -12,6 +12,7 @@ export interface RegistroDto {
   email: string
   matricula: string
   cpf: string
+  instituicao: string
   senha: string
 }
 
