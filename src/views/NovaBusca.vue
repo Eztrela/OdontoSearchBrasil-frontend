@@ -38,36 +38,6 @@
               </div>
             </div>
 
-            <!-- Examiner -->
-            <v-autocomplete
-              v-model="examinadorId"
-              :items="examinadoresStore.examinadores"
-              item-title="nome"
-              item-value="id"
-              label="Examinador"
-              variant="outlined"
-              density="comfortable"
-              :loading="loadingExaminadores"
-              clearable
-              no-data-text="Nenhum examinador encontrado"
-              class="mb-1"
-            >
-              <template #item="{ item, props: itemProps }">
-                <v-list-item v-bind="itemProps" :subtitle="item.raw.email" />
-              </template>
-            </v-autocomplete>
-            <div class="mb-3">
-              <v-btn
-                size="small"
-                variant="text"
-                color="primary"
-                prepend-icon="mdi-plus"
-                @click="novoExaminadorDialog = true"
-              >
-                Novo examinador
-              </v-btn>
-            </div>
-
             <!-- Optional filters -->
             <v-expansion-panels variant="accordion" class="mb-2">
               <v-expansion-panel title="Filtros opcionais">
@@ -144,42 +114,6 @@
       </v-col>
     </v-row>
 
-    <!-- New examiner dialog -->
-    <v-dialog v-model="novoExaminadorDialog" max-width="420">
-      <v-card>
-        <v-card-title class="pa-4 pb-2">Novo Examinador</v-card-title>
-        <v-card-text>
-          <v-text-field
-            v-model="novoNome"
-            label="Nome completo"
-            variant="outlined"
-            density="comfortable"
-            class="mb-3"
-          />
-          <v-text-field
-            v-model="novoEmail"
-            label="E-mail"
-            type="email"
-            variant="outlined"
-            density="comfortable"
-          />
-        </v-card-text>
-        <v-card-actions class="pa-3 pt-0">
-          <v-spacer />
-          <v-btn variant="text" @click="novoExaminadorDialog = false">Cancelar</v-btn>
-          <v-btn
-            color="primary"
-            variant="flat"
-            :loading="loadingNovoExaminador"
-            :disabled="!novoNome.trim() || !novoEmail.trim()"
-            @click="salvarNovoExaminador"
-          >
-            Salvar
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-
     <!-- Error snackbar -->
     <v-snackbar v-model="snackbar" color="error" timeout="5000" multi-line>
       {{ snackbarMsg }}
@@ -191,40 +125,29 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import type { ToothState } from '@/types'
-import { createBusca, calcularBusca, createExaminador } from '@/api/client'
-import { useExaminadoresStore } from '@/stores'
+import { createBusca, calcularBusca } from '@/api/client'
 import Odontogram from '@/components/Odontogram.vue'
 import axios from 'axios'
 
 const router = useRouter()
-const examinadoresStore = useExaminadoresStore()
 
 // ─── Form state ───────────────────────────────────────────────────────────────
 
 const nicAno = ref<string>(String(new Date().getFullYear()))
 const nicNumero = ref<string>('')
-const examinadorId = ref<number | null>(null)
 const sexoFiltro = ref<1 | 2 | null>(null)
 const faixasEtarias = ref<string[]>([])
 const teeth = ref<ToothState[]>([])
 
 const nicError = ref('')
 const loading = ref(false)
-const loadingExaminadores = ref(false)
 const odontogramRef = ref<InstanceType<typeof Odontogram> | null>(null)
 
 const snackbar = ref(false)
 const snackbarMsg = ref('')
-
-// ─── New examiner dialog ──────────────────────────────────────────────────────
-
-const novoExaminadorDialog = ref(false)
-const novoNome = ref('')
-const novoEmail = ref('')
-const loadingNovoExaminador = ref(false)
 
 // ─── NIC options ─────────────────────────────────────────────────────────────
 
@@ -274,21 +197,8 @@ const selectedCount = computed(
 )
 
 const canSubmit = computed(
-  () => nicValid.value && examinadorId.value !== null && selectedCount.value > 0,
+  () => nicValid.value && selectedCount.value > 0,
 )
-
-// ─── Lifecycle ────────────────────────────────────────────────────────────────
-
-onMounted(async () => {
-  loadingExaminadores.value = true
-  try {
-    await examinadoresStore.fetchExaminadores()
-  } catch {
-    showError('Erro ao carregar examinadores.')
-  } finally {
-    loadingExaminadores.value = false
-  }
-})
 
 // ─── Handlers ─────────────────────────────────────────────────────────────────
 
@@ -316,7 +226,6 @@ async function calcular() {
 
     const { id } = await createBusca({
       nic: `${nicAno.value}/${nicNumero.value.padStart(4, '0')}`,
-      examinadorId: examinadorId.value!,
       sexoFiltro: sexoFiltro.value ?? undefined,
       idadeMin,
       idadeMax,
@@ -346,27 +255,6 @@ async function calcular() {
     }
   } finally {
     loading.value = false
-  }
-}
-
-async function salvarNovoExaminador() {
-  if (!novoNome.value.trim() || !novoEmail.value.trim()) return
-  loadingNovoExaminador.value = true
-  try {
-    const { id } = await createExaminador({ nome: novoNome.value.trim(), email: novoEmail.value.trim() })
-    await examinadoresStore.refresh()
-    examinadorId.value = id
-    novoExaminadorDialog.value = false
-    novoNome.value = ''
-    novoEmail.value = ''
-  } catch (err: unknown) {
-    if (axios.isAxiosError(err)) {
-      showError(err.response?.data?.message ?? 'Erro ao criar examinador.')
-    } else {
-      showError('Erro ao criar examinador.')
-    }
-  } finally {
-    loadingNovoExaminador.value = false
   }
 }
 

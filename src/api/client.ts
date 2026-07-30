@@ -1,27 +1,49 @@
 import axios from 'axios'
 import type {
-  Examinador,
-  CreateExaminadorDto,
   CreateBuscaDto,
   ResultadoBusca,
   BuscaListItem,
   BuscaDetalhe,
+  RegistroDto,
+  LoginDto,
+  AuthResponse,
 } from '@/types'
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8080',
-  headers: {
-    'Content-Type': 'application/json',
-  },
+  headers: { 'Content-Type': 'application/json' },
 })
 
-// ─── Examinadores ─────────────────────────────────────────────────────────────
+// Attach JWT to every request
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('auth_token')
+  if (token) config.headers.Authorization = `Bearer ${token}`
+  return config
+})
 
-export const getExaminadores = (): Promise<Examinador[]> =>
-  api.get<Examinador[]>('/examinadores').then((r) => r.data)
+// On 401, clear session and redirect to login
+api.interceptors.response.use(
+  (res) => res,
+  (err) => {
+    if (axios.isAxiosError(err) && err.response?.status === 401) {
+      const isLoginCall = err.config?.url?.includes('/auth/login')
+      if (!isLoginCall) {
+        localStorage.removeItem('auth_token')
+        localStorage.removeItem('auth_user')
+        window.location.href = '/login'
+      }
+    }
+    return Promise.reject(err)
+  },
+)
 
-export const createExaminador = (dto: CreateExaminadorDto): Promise<{ id: number }> =>
-  api.post<{ id: number }>('/examinadores', dto).then((r) => r.data)
+// ─── Auth ─────────────────────────────────────────────────────────────────────
+
+export const registrar = (dto: RegistroDto): Promise<AuthResponse> =>
+  api.post<AuthResponse>('/auth/registro', dto).then((r) => r.data)
+
+export const loginApi = (dto: LoginDto): Promise<AuthResponse> =>
+  api.post<AuthResponse>('/auth/login', dto).then((r) => r.data)
 
 // ─── Buscas ───────────────────────────────────────────────────────────────────
 
@@ -31,7 +53,6 @@ export const getBuscas = (): Promise<BuscaListItem[]> =>
 export const getBusca = (id: number): Promise<BuscaDetalhe> =>
   api.get<any>(`/buscas/${id}`).then((r) => {
     const d = r.data
-    // Backward compat: old backend serializes the field as "examinadorNome"
     return { ...d, examinador: d.examinador ?? d.examinadorNome ?? '' } as BuscaDetalhe
   })
 

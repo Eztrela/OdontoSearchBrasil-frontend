@@ -1,14 +1,31 @@
-// ─── Examinador ──────────────────────────────────────────────────────────────
+// ─── Auth ─────────────────────────────────────────────────────────────────────
 
-export interface Examinador {
+export interface UsuarioLogado {
   id: number
   nome: string
   email: string
+  perfil: 'EXAMINADOR' | 'DESENVOLVEDOR'
 }
 
-export interface CreateExaminadorDto {
+export interface RegistroDto {
   nome: string
   email: string
+  matricula: string
+  cpf: string
+  senha: string
+}
+
+export interface LoginDto {
+  email: string
+  senha: string
+}
+
+export interface AuthResponse {
+  token: string
+  id: number
+  nome: string
+  email: string
+  perfil: 'EXAMINADOR' | 'DESENVOLVEDOR'
 }
 
 // ─── Dente ────────────────────────────────────────────────────────────────────
@@ -33,7 +50,6 @@ export interface DenteResult {
 
 export interface CreateBuscaDto {
   nic: string
-  examinadorId: number
   sexoFiltro?: 1 | 2 | null
   idadeMin?: number | null
   idadeMax?: number | null
