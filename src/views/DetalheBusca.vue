@@ -77,6 +77,18 @@
                 <v-list-item-title class="text-caption text-medium-emphasis">Examinador</v-list-item-title>
                 <v-list-item-subtitle class="text-body-2 mt-0">{{ busca.examinador }}</v-list-item-subtitle>
               </v-list-item>
+              <v-list-item v-if="busca.examinadorMatricula">
+                <v-list-item-title class="text-caption text-medium-emphasis">Matrícula</v-list-item-title>
+                <v-list-item-subtitle class="text-body-2 mt-0">{{ busca.examinadorMatricula }}</v-list-item-subtitle>
+              </v-list-item>
+              <v-list-item v-if="busca.examinadorCpf">
+                <v-list-item-title class="text-caption text-medium-emphasis">CPF</v-list-item-title>
+                <v-list-item-subtitle class="text-body-2 mt-0">{{ formatCpf(busca.examinadorCpf) }}</v-list-item-subtitle>
+              </v-list-item>
+              <v-list-item v-if="busca.examinadorInstituicao">
+                <v-list-item-title class="text-caption text-medium-emphasis">Instituição</v-list-item-title>
+                <v-list-item-subtitle class="text-body-2 mt-0">{{ busca.examinadorInstituicao }}</v-list-item-subtitle>
+              </v-list-item>
               <v-list-item>
                 <v-list-item-title class="text-caption text-medium-emphasis">Criado em</v-list-item-title>
                 <v-list-item-subtitle class="text-body-2 mt-0">{{ formatDate(busca.criadoEm) }}</v-list-item-subtitle>
@@ -85,16 +97,19 @@
                 <v-list-item-title class="text-caption text-medium-emphasis">Cancelado em</v-list-item-title>
                 <v-list-item-subtitle class="text-body-2 mt-0">{{ formatDate(busca.canceladaEm) }}</v-list-item-subtitle>
               </v-list-item>
-              <v-list-item v-if="busca.sexoFiltro">
+              <v-list-item>
                 <v-list-item-title class="text-caption text-medium-emphasis">Sexo</v-list-item-title>
                 <v-list-item-subtitle class="text-body-2 mt-0">
-                  {{ busca.sexoFiltro === 1 ? 'Masculino' : 'Feminino' }}
+                  {{ busca.sexoFiltro === 1 ? 'Masculino' : busca.sexoFiltro === 2 ? 'Feminino' : 'Todos' }}
                 </v-list-item-subtitle>
               </v-list-item>
-              <v-list-item v-if="busca.idadeMin != null || busca.idadeMax != null">
+              <v-list-item>
                 <v-list-item-title class="text-caption text-medium-emphasis">Faixa etária</v-list-item-title>
                 <v-list-item-subtitle class="text-body-2 mt-0">
-                  {{ busca.idadeMin ?? '—' }} a {{ busca.idadeMax ?? '—' }} anos
+                  <template v-if="busca.idadeMin != null || busca.idadeMax != null">
+                    {{ busca.idadeMin ?? '—' }} a {{ busca.idadeMax ?? '—' }} anos
+                  </template>
+                  <template v-else>Todas as idades</template>
                 </v-list-item-subtitle>
               </v-list-item>
             </v-list>
@@ -115,6 +130,9 @@
             :resultado="busca.resultado"
             :nic="busca.nic"
             :examinador="busca.examinador"
+            :examinador-matricula="busca.examinadorMatricula"
+            :examinador-cpf="busca.examinadorCpf"
+            :examinador-instituicao="busca.examinadorInstituicao"
             :sexo-filtro="busca.sexoFiltro"
             :idade-min="busca.idadeMin"
             :idade-max="busca.idadeMax"
@@ -208,6 +226,11 @@ async function cancelar() {
   } finally {
     cancelLoading.value = false
   }
+}
+
+function formatCpf(cpf: string | null | undefined): string {
+  if (!cpf || cpf.length !== 11) return cpf ?? ''
+  return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4')
 }
 
 function formatDate(iso: string): string {

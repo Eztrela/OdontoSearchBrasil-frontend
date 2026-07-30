@@ -96,6 +96,9 @@ export interface BuscaDetalhe {
   nic: string
   examinadorId: number
   examinador: string
+  examinadorMatricula?: string | null
+  examinadorCpf?: string | null
+  examinadorInstituicao?: string | null
   sexoFiltro?: 1 | 2 | null
   idadeMin?: number | null
   idadeMax?: number | null

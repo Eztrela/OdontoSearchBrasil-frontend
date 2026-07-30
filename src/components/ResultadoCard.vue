@@ -31,6 +31,21 @@
           <span class="text-caption text-medium-emphasis mr-1">Número do exame (NIC)</span>
           <span class="text-body-2 font-weight-medium" style="font-family:monospace">{{ nic }}</span>
         </div>
+        <div v-if="examinadorMatricula" class="info-cell">
+          <v-icon size="15" class="mr-1 text-medium-emphasis">mdi-card-account-details-outline</v-icon>
+          <span class="text-caption text-medium-emphasis mr-1">Matrícula</span>
+          <span class="text-body-2 font-weight-medium">{{ examinadorMatricula }}</span>
+        </div>
+        <div v-if="examinadorCpf" class="info-cell">
+          <v-icon size="15" class="mr-1 text-medium-emphasis">mdi-identifier</v-icon>
+          <span class="text-caption text-medium-emphasis mr-1">CPF</span>
+          <span class="text-body-2 font-weight-medium">{{ formatCpf(examinadorCpf) }}</span>
+        </div>
+        <div v-if="examinadorInstituicao" class="info-cell info-cell--full">
+          <v-icon size="15" class="mr-1 text-medium-emphasis">mdi-hospital-building</v-icon>
+          <span class="text-caption text-medium-emphasis mr-1">Instituição</span>
+          <span class="text-body-2 font-weight-medium">{{ examinadorInstituicao }}</span>
+        </div>
       </div>
 
       <!-- Applied filters -->
@@ -117,6 +132,9 @@ const props = defineProps<{
   resultado: ResultadoBusca
   nic: string
   examinador: string
+  examinadorMatricula?: string | null
+  examinadorCpf?: string | null
+  examinadorInstituicao?: string | null
   sexoFiltro?: 1 | 2 | null
   faixas?: string[]
   idadeMin?: number | null
@@ -184,6 +202,11 @@ const BADGE_LABELS: Record<string, string> = {
   ignorar: 'Ignorar',
 }
 
+function formatCpf(cpf: string | null | undefined): string {
+  if (!cpf || cpf.length !== 11) return cpf ?? ''
+  return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4')
+}
+
 function contrastColor(hex: string): string {
   const r = parseInt(hex.slice(1, 3), 16)
   const g = parseInt(hex.slice(3, 5), 16)
@@ -226,6 +249,10 @@ const dentesAnalisados = computed(() =>
   align-items: center;
   flex-wrap: wrap;
   gap: 2px;
+}
+
+.info-cell--full {
+  grid-column: 1 / -1;
 }
 
 /* Stats row */
