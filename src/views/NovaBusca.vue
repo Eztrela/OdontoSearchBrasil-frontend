@@ -216,7 +216,7 @@ async function calcular() {
       .filter((t) => t.statusInformado !== null || t.ignorar)
       .map((t) => ({
         numeroIso: t.numeroIso,
-        statusInformado: t.statusInformado ?? 0,
+        statusInformado: t.statusInformado,
         ignorar: t.ignorar,
       }))
 

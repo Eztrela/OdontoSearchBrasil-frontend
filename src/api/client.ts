@@ -26,8 +26,8 @@ api.interceptors.response.use(
   (res) => res,
   (err) => {
     if (axios.isAxiosError(err) && err.response?.status === 401) {
-      const isLoginCall = err.config?.url?.includes('/auth/login')
-      if (!isLoginCall) {
+      const isAuthCall = err.config?.url?.includes('/auth/')
+      if (!isAuthCall) {
         localStorage.removeItem('auth_token')
         localStorage.removeItem('auth_user')
         window.location.href = '/login'
