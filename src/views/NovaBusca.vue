@@ -128,7 +128,7 @@
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import type { ToothState } from '@/types'
-import { createBusca, calcularBusca } from '@/api/client'
+import { createBusca, calcularBusca, cancelarBusca } from '@/api/client'
 import Odontogram from '@/components/Odontogram.vue'
 import axios from 'axios'
 
@@ -211,6 +211,8 @@ async function calcular() {
   loading.value = true
   nicError.value = ''
 
+  let buscaId: number | null = null
+
   try {
     const dentesPayload = teeth.value
       .filter((t) => t.statusInformado !== null || t.ignorar)
@@ -231,14 +233,21 @@ async function calcular() {
       idadeMax,
       dentes: dentesPayload,
     })
+    buscaId = id
 
     await calcularBusca(id)
     router.push({ name: 'relatorio-busca', params: { id } })
   } catch (err: unknown) {
+    // Se a busca foi criada mas o cálculo falhou, cancela para não bloquear o NIC
+    if (buscaId !== null) {
+      try { await cancelarBusca(buscaId) } catch { /* ignora falha ao cancelar */ }
+    }
+
     if (axios.isAxiosError(err)) {
       const status = err.response?.status
       const data = err.response?.data ?? {}
-      if (status === 409) {
+      if (status === 409 && buscaId === null) {
+        // 409 veio do createBusca → NIC realmente em uso
         nicError.value = 'Este NIC já possui uma busca ativa'
         showError('Este NIC já possui uma busca ativa. Use um NIC diferente ou consulte o histórico.')
       } else if (status === 422) {
@@ -248,7 +257,7 @@ async function calcular() {
           : (data.detail ?? 'Dados inválidos')
         showError(`Erro de validação — ${detalhe}`)
       } else {
-        showError(data.detail ?? data.message ?? err.message ?? 'Erro inesperado.')
+        showError(data.detail ?? data.message ?? err.message ?? 'Erro inesperado ao calcular.')
       }
     } else {
       showError('Erro inesperado. Tente novamente.')
