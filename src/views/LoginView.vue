@@ -99,7 +99,7 @@ async function entrar() {
   try {
     const res = await loginApi({ email: email.value, senha: senha.value })
     authStore.setAuth(res.token, { id: res.id, nome: res.nome, email: res.email, perfil: res.perfil })
-    router.push({ name: 'nova-busca' })
+    router.push({ name: 'home' })
   } catch (err: unknown) {
     if (axios.isAxiosError(err)) {
       const status = err.response?.status
