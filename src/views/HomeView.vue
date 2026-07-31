@@ -13,24 +13,37 @@
             e pesos amostrais representando ~65,8 milhões de adultos brasileiros.
           </p>
           <div class="d-flex flex-wrap gap-3">
-            <v-btn
-              color="white"
-              variant="flat"
-              size="large"
-              prepend-icon="mdi-login"
-              :to="{ name: 'login' }"
-            >
-              Entrar
-            </v-btn>
-            <v-btn
-              color="white"
-              variant="outlined"
-              size="large"
-              prepend-icon="mdi-account-plus-outline"
-              :to="{ name: 'cadastro' }"
-            >
-              Criar conta
-            </v-btn>
+            <template v-if="auth.isLoggedIn">
+              <v-btn
+                color="white"
+                variant="flat"
+                size="large"
+                prepend-icon="mdi-magnify"
+                :to="{ name: 'nova-busca' }"
+              >
+                Realizar busca
+              </v-btn>
+            </template>
+            <template v-else>
+              <v-btn
+                color="white"
+                variant="flat"
+                size="large"
+                prepend-icon="mdi-login"
+                :to="{ name: 'login' }"
+              >
+                Entrar
+              </v-btn>
+              <v-btn
+                color="white"
+                variant="outlined"
+                size="large"
+                prepend-icon="mdi-account-plus-outline"
+                :to="{ name: 'cadastro' }"
+              >
+                Criar conta
+              </v-btn>
+            </template>
           </div>
         </div>
         <v-icon icon="mdi-tooth" size="120" style="opacity: 0.2" class="d-none d-md-flex" />
@@ -79,22 +92,39 @@
 
     <!-- CTA bottom -->
     <v-card variant="tonal" color="primary" rounded="xl" class="pa-6 text-center">
-      <div class="text-subtitle-1 font-weight-bold mb-1">Pronto para começar?</div>
-      <div class="text-body-2 text-medium-emphasis mb-4">
-        Crie uma conta gratuita ou consulte o guia do usuário.
-      </div>
-      <div class="d-flex justify-center flex-wrap gap-3">
-        <v-btn color="primary" variant="flat" prepend-icon="mdi-account-plus-outline" :to="{ name: 'cadastro' }">
-          Criar conta
-        </v-btn>
-        <v-btn color="primary" variant="tonal" prepend-icon="mdi-book-open-outline" :to="{ name: 'guia' }">
-          Guia do usuário
-        </v-btn>
-      </div>
+      <template v-if="auth.isLoggedIn">
+        <div class="text-subtitle-1 font-weight-bold mb-1">Pronto para continuar?</div>
+        <div class="text-body-2 text-medium-emphasis mb-4">
+          Inicie uma nova busca ou consulte o guia do usuário.
+        </div>
+        <div class="d-flex justify-center flex-wrap gap-3">
+          <v-btn color="primary" variant="flat" prepend-icon="mdi-magnify" :to="{ name: 'nova-busca' }">
+            Nova busca
+          </v-btn>
+          <v-btn color="primary" variant="tonal" prepend-icon="mdi-book-open-outline" :to="{ name: 'guia' }">
+            Guia do usuário
+          </v-btn>
+        </div>
+      </template>
+      <template v-else>
+        <div class="text-subtitle-1 font-weight-bold mb-1">Pronto para começar?</div>
+        <div class="text-body-2 text-medium-emphasis mb-4">
+          Crie uma conta gratuita ou consulte o guia do usuário.
+        </div>
+        <div class="d-flex justify-center flex-wrap gap-3">
+          <v-btn color="primary" variant="flat" prepend-icon="mdi-account-plus-outline" :to="{ name: 'cadastro' }">
+            Criar conta
+          </v-btn>
+          <v-btn color="primary" variant="tonal" prepend-icon="mdi-book-open-outline" :to="{ name: 'guia' }">
+            Guia do usuário
+          </v-btn>
+        </div>
+      </template>
     </v-card>
   </div>
 </template>
 
 <script setup lang="ts">
-// Public landing page — no logic needed
+import { useAuthStore } from '@/stores/auth'
+const auth = useAuthStore()
 </script>

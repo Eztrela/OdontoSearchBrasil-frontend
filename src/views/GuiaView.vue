@@ -100,10 +100,10 @@
       <v-col cols="12" md="4">
         <v-card variant="tonal" color="primary" rounded="xl" class="mb-4">
           <v-card-text class="pa-5">
-            <div class="text-subtitle-2 font-weight-bold mb-2">28 dentes permanentes</div>
+            <div class="text-subtitle-2 font-weight-bold mb-2">32 dentes permanentes</div>
             <p class="text-caption text-medium-emphasis">
-              ISO/FDI 11–17, 21–27, 31–37, 41–47. Terceiros molares (sisos) e dentes decíduos
-              excluídos do modelo.
+              ISO/FDI 11–18, 21–28, 31–38, 41–48, incluindo os terceiros molares (sisos).
+              Dentes decíduos excluídos.
             </p>
           </v-card-text>
         </v-card>
