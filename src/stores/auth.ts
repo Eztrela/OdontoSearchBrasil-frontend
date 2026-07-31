@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import type { UsuarioLogado } from '@/types'
+import { useHistoricoStore } from './index'
 
 export const useAuthStore = defineStore('auth', () => {
   const token = ref<string | null>(localStorage.getItem('auth_token'))
@@ -23,6 +24,7 @@ export const useAuthStore = defineStore('auth', () => {
     usuario.value = null
     localStorage.removeItem('auth_token')
     localStorage.removeItem('auth_user')
+    useHistoricoStore().clear()
   }
 
   return { token, usuario, isLoggedIn, isDesenvolvedor, setAuth, logout }
