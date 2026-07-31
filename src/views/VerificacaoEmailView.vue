@@ -3,23 +3,8 @@
     <v-card width="440" rounded="xl" elevation="4" class="pa-2 text-center">
       <v-card-text class="pa-8">
 
-        <template v-if="status === 'pending'">
-          <v-icon icon="mdi-email-check-outline" size="56" color="primary" class="mb-4" />
-          <div class="text-h6 font-weight-bold mb-2">Ativar conta</div>
-          <p class="text-body-2 text-medium-emphasis mb-6">
-            Clique no botão abaixo para confirmar seu e-mail e ativar sua conta no OdontoSearch Brasil.
-          </p>
-          <v-btn color="primary" variant="flat" size="large" @click="confirmar">
-            Confirmar e-mail
-          </v-btn>
-        </template>
-
-        <template v-else-if="status === 'loading'">
-          <v-progress-circular indeterminate color="primary" size="48" class="mb-4" />
-          <div class="text-body-1">Ativando sua conta…</div>
-        </template>
-
-        <template v-else-if="status === 'ok'">
+        <!-- Backend redirect: success -->
+        <template v-if="status === 'ok'">
           <v-icon icon="mdi-check-circle-outline" size="56" color="success" class="mb-4" />
           <div class="text-h6 font-weight-bold mb-2">E-mail verificado!</div>
           <p class="text-body-2 text-medium-emphasis mb-6">
@@ -30,15 +15,34 @@
           </v-btn>
         </template>
 
-        <template v-else>
+        <!-- Backend redirect: error -->
+        <template v-else-if="status === 'error'">
           <v-icon icon="mdi-alert-circle-outline" size="56" color="error" class="mb-4" />
           <div class="text-h6 font-weight-bold mb-2">Link inválido</div>
           <p class="text-body-2 text-medium-emphasis mb-6">
-            {{ erro }}
+            O link de verificação é inválido ou já foi utilizado.
           </p>
           <v-btn color="primary" variant="tonal" :to="{ name: 'login' }">
             Voltar para o login
           </v-btn>
+        </template>
+
+        <!-- Legacy flow (emails antigos com token no frontend): confirmar -->
+        <template v-else-if="status === 'pending'">
+          <v-icon icon="mdi-email-check-outline" size="56" color="primary" class="mb-4" />
+          <div class="text-h6 font-weight-bold mb-2">Ativar conta</div>
+          <p class="text-body-2 text-medium-emphasis mb-6">
+            Clique no botão abaixo para confirmar seu e-mail e ativar sua conta.
+          </p>
+          <v-btn color="primary" variant="flat" size="large" @click="confirmar">
+            Confirmar e-mail
+          </v-btn>
+        </template>
+
+        <!-- Legacy flow: verificando -->
+        <template v-else>
+          <v-progress-circular indeterminate color="primary" size="48" class="mb-4" />
+          <div class="text-body-1">Ativando sua conta…</div>
         </template>
 
       </v-card-text>
@@ -53,13 +57,19 @@ import { verificarEmail } from '@/api/client'
 import axios from 'axios'
 
 const route = useRoute()
-const status = ref<'pending' | 'loading' | 'ok' | 'error'>('pending')
-const erro = ref('O link de verificação é inválido ou já foi utilizado.')
+const status = ref<'ok' | 'error' | 'pending' | 'loading'>('pending')
 
 const token = (route.params.token || route.query.token) as string
 
 onMounted(() => {
-  if (!token) status.value = 'error'
+  if (route.name === 'verificar-email-sucesso') {
+    status.value = 'ok'
+  } else if (route.name === 'verificar-email-erro') {
+    status.value = 'error'
+  } else if (!token) {
+    status.value = 'error'
+  }
+  // else: status = 'pending' → mostra botão para e-mails legados
 })
 
 async function confirmar() {
@@ -70,7 +80,8 @@ async function confirmar() {
   } catch (err) {
     status.value = 'error'
     if (axios.isAxiosError(err)) {
-      erro.value = err.response?.data?.detail ?? erro.value
+      const detail = err.response?.data?.detail
+      if (detail) console.error(detail)
     }
   }
 }

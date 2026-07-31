@@ -23,6 +23,8 @@ const router = createRouter({
     { path: '/login',             name: 'login',               component: LoginView,               meta: { guestOnly: true } },
     { path: '/cadastro',          name: 'cadastro',            component: CadastroView,            meta: { guestOnly: true } },
     { path: '/aguarde-verificacao', name: 'aguarde-verificacao', component: AguardeVerificacaoView },
+    { path: '/verificar-email/sucesso', name: 'verificar-email-sucesso', component: VerificacaoEmailView },
+    { path: '/verificar-email/erro',   name: 'verificar-email-erro',   component: VerificacaoEmailView },
     { path: '/verificar-email/:token', name: 'verificar-email',        component: VerificacaoEmailView },
     { path: '/verificar-email',        name: 'verificar-email-legacy', component: VerificacaoEmailView },
     { path: '/esqueci-senha',     name: 'esqueci-senha',       component: EsqueceuSenhaView,       meta: { guestOnly: true } },
