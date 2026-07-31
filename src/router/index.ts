@@ -23,9 +23,11 @@ const router = createRouter({
     { path: '/login',             name: 'login',               component: LoginView,               meta: { guestOnly: true } },
     { path: '/cadastro',          name: 'cadastro',            component: CadastroView,            meta: { guestOnly: true } },
     { path: '/aguarde-verificacao', name: 'aguarde-verificacao', component: AguardeVerificacaoView },
-    { path: '/verificar-email/:token', name: 'verificar-email', component: VerificacaoEmailView },
+    { path: '/verificar-email/:token', name: 'verificar-email',        component: VerificacaoEmailView },
+    { path: '/verificar-email',        name: 'verificar-email-legacy', component: VerificacaoEmailView },
     { path: '/esqueci-senha',     name: 'esqueci-senha',       component: EsqueceuSenhaView,       meta: { guestOnly: true } },
-    { path: '/redefinir-senha/:token', name: 'redefinir-senha', component: RedefinirSenhaView },
+    { path: '/redefinir-senha/:token', name: 'redefinir-senha',        component: RedefinirSenhaView },
+    { path: '/redefinir-senha',        name: 'redefinir-senha-legacy', component: RedefinirSenhaView },
 
     // ── Protected ────────────────────────────────────────────────────────────
     { path: '/busca',   name: 'nova-busca',   component: NovaBusca,       meta: { requiresAuth: true } },

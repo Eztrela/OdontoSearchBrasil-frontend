@@ -56,7 +56,7 @@ const route = useRoute()
 const status = ref<'pending' | 'loading' | 'ok' | 'error'>('pending')
 const erro = ref('O link de verificação é inválido ou já foi utilizado.')
 
-const token = route.params.token as string
+const token = (route.params.token || route.query.token) as string
 
 onMounted(() => {
   if (!token) status.value = 'error'
