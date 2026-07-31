@@ -3,9 +3,20 @@
     <v-card width="440" rounded="xl" elevation="4" class="pa-2 text-center">
       <v-card-text class="pa-8">
 
-        <template v-if="status === 'loading'">
+        <template v-if="status === 'pending'">
+          <v-icon icon="mdi-email-check-outline" size="56" color="primary" class="mb-4" />
+          <div class="text-h6 font-weight-bold mb-2">Ativar conta</div>
+          <p class="text-body-2 text-medium-emphasis mb-6">
+            Clique no botão abaixo para confirmar seu e-mail e ativar sua conta no OdontoSearch Brasil.
+          </p>
+          <v-btn color="primary" variant="flat" size="large" @click="confirmar">
+            Confirmar e-mail
+          </v-btn>
+        </template>
+
+        <template v-else-if="status === 'loading'">
           <v-progress-circular indeterminate color="primary" size="48" class="mb-4" />
-          <div class="text-body-1">Verificando seu e-mail…</div>
+          <div class="text-body-1">Ativando sua conta…</div>
         </template>
 
         <template v-else-if="status === 'ok'">
@@ -42,15 +53,17 @@ import { verificarEmail } from '@/api/client'
 import axios from 'axios'
 
 const route = useRoute()
-const status = ref<'loading' | 'ok' | 'error'>('loading')
+const status = ref<'pending' | 'loading' | 'ok' | 'error'>('pending')
 const erro = ref('O link de verificação é inválido ou já foi utilizado.')
 
-onMounted(async () => {
-  const token = route.params.token as string
-  if (!token) {
-    status.value = 'error'
-    return
-  }
+const token = route.params.token as string
+
+onMounted(() => {
+  if (!token) status.value = 'error'
+})
+
+async function confirmar() {
+  status.value = 'loading'
   try {
     await verificarEmail(token)
     status.value = 'ok'
@@ -60,5 +73,5 @@ onMounted(async () => {
       erro.value = err.response?.data?.detail ?? erro.value
     }
   }
-})
+}
 </script>
