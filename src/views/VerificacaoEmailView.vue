@@ -46,7 +46,7 @@ const status = ref<'loading' | 'ok' | 'error'>('loading')
 const erro = ref('O link de verificação é inválido ou já foi utilizado.')
 
 onMounted(async () => {
-  const token = route.query.token as string
+  const token = route.params.token as string
   if (!token) {
     status.value = 'error'
     return

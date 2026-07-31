@@ -79,7 +79,7 @@ import { redefinirSenha } from '@/api/client'
 import axios from 'axios'
 
 const route = useRoute()
-const token = route.query.token as string ?? ''
+const token = route.params.token as string ?? ''
 const tokenPresente = computed(() => !!token)
 
 const formRef = ref()
