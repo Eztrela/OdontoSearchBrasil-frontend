@@ -59,19 +59,41 @@
 
         <v-card variant="outlined" rounded="xl" class="mb-4">
           <v-card-text class="pa-6">
-            <div class="text-subtitle-1 font-weight-bold mb-3">Classificação de raridade</div>
+            <div class="text-subtitle-1 font-weight-bold mb-3">Classificação POPD</div>
             <v-table density="compact">
               <thead>
                 <tr>
-                  <th>Classificação</th>
+                  <th>POPD</th>
                   <th>Frequência na população</th>
+                  <th>Potencial de individualização</th>
                 </tr>
               </thead>
               <tbody>
-                <tr><td><v-chip color="success" size="x-small" class="font-weight-bold">Comum</v-chip></td><td class="text-body-2">&gt; 1%</td></tr>
-                <tr><td><v-chip color="yellow-darken-2" size="x-small" class="font-weight-bold">Incomum</v-chip></td><td class="text-body-2">0,1% – 1%</td></tr>
-                <tr><td><v-chip color="warning" size="x-small" class="font-weight-bold">Raro</v-chip></td><td class="text-body-2">0,01% – 0,1%</td></tr>
-                <tr><td><v-chip color="error" size="x-small" class="font-weight-bold">Muito Raro</v-chip></td><td class="text-body-2">&lt; 0,01% ou zero correspondências</td></tr>
+                <tr>
+                  <td><v-chip color="error" size="x-small" class="font-weight-bold">Muito Alta</v-chip></td>
+                  <td class="text-body-2">≤ 0,01% ou zero correspondências</td>
+                  <td class="text-body-2">Muito alto</td>
+                </tr>
+                <tr>
+                  <td><v-chip color="deep-orange" size="x-small" class="font-weight-bold">Alta</v-chip></td>
+                  <td class="text-body-2">&gt; 0,01% – 0,1%</td>
+                  <td class="text-body-2">Alto</td>
+                </tr>
+                <tr>
+                  <td><v-chip color="warning" size="x-small" class="font-weight-bold">Moderada</v-chip></td>
+                  <td class="text-body-2">&gt; 0,1% – 1%</td>
+                  <td class="text-body-2">Moderado</td>
+                </tr>
+                <tr>
+                  <td><v-chip color="success" size="x-small" class="font-weight-bold">Baixa</v-chip></td>
+                  <td class="text-body-2">&gt; 1% – 10%</td>
+                  <td class="text-body-2">Baixo</td>
+                </tr>
+                <tr>
+                  <td><v-chip color="blue-grey" size="x-small" class="font-weight-bold">Muito Baixa</v-chip></td>
+                  <td class="text-body-2">&gt; 10%</td>
+                  <td class="text-body-2">Muito baixo</td>
+                </tr>
               </tbody>
             </v-table>
           </v-card-text>

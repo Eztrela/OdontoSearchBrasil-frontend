@@ -79,7 +79,7 @@ export interface AtualizarBuscaDto {
 
 export interface ResultadoBusca {
   frequenciaPercent: number
-  raridade: 'muito_raro' | 'raro' | 'incomum' | 'comum'
+  raridade: 'muito_alta' | 'alta' | 'moderada' | 'baixa' | 'muito_baixa'
   correspondencias: number
   totalPopulacao: number
   pesoCorrespondencias: number
@@ -93,7 +93,7 @@ export interface BuscaListItem {
   examinador: string
   criadoEm: string
   frequenciaPercent?: number
-  raridade?: 'muito_raro' | 'raro' | 'incomum' | 'comum'
+  raridade?: 'muito_alta' | 'alta' | 'moderada' | 'baixa' | 'muito_baixa'
   correspondencias?: number
   totalPopulacao?: number
 }
@@ -146,10 +146,11 @@ export const STATUS_COLORS: Record<string, string> = {
 }
 
 export const RARIDADE_COLORS: Record<string, string> = {
-  muito_raro: 'error',
-  raro: 'warning',
-  incomum: 'yellow-darken-2',
-  comum: 'success',
+  muito_alta:  'error',
+  alta:        'deep-orange',
+  moderada:    'warning',
+  baixa:       'success',
+  muito_baixa: 'blue-grey',
 }
 
 export const TOOTH_NAMES: Record<number, string> = {
@@ -188,8 +189,9 @@ export const TOOTH_NAMES: Record<number, string> = {
 }
 
 export const RARIDADE_LABELS: Record<string, string> = {
-  muito_raro: 'Muito Raro',
-  raro: 'Raro',
-  incomum: 'Incomum',
-  comum: 'Comum',
+  muito_alta:  'POPD Muito Alta',
+  alta:        'POPD Alta',
+  moderada:    'POPD Moderada',
+  baixa:       'POPD Baixa',
+  muito_baixa: 'POPD Muito Baixa',
 }
