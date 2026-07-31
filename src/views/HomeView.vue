@@ -12,7 +12,7 @@
             Baseado nos dados do <strong>Levantamento SB Brasil 2023</strong>, com 33.512 participantes
             e pesos amostrais representando ~65,8 milhões de adultos brasileiros.
           </p>
-          <div class="d-flex flex-wrap gap-3">
+          <div class="d-flex flex-wrap" style="gap: 12px">
             <template v-if="auth.isLoggedIn">
               <v-btn
                 color="white"
@@ -97,7 +97,7 @@
         <div class="text-body-2 text-medium-emphasis mb-4">
           Inicie uma nova busca ou consulte o guia do usuário.
         </div>
-        <div class="d-flex justify-center flex-wrap gap-3">
+        <div class="d-flex justify-center flex-wrap" style="gap: 12px">
           <v-btn color="primary" variant="flat" prepend-icon="mdi-magnify" :to="{ name: 'nova-busca' }">
             Nova busca
           </v-btn>
@@ -111,7 +111,7 @@
         <div class="text-body-2 text-medium-emphasis mb-4">
           Crie uma conta gratuita ou consulte o guia do usuário.
         </div>
-        <div class="d-flex justify-center flex-wrap gap-3">
+        <div class="d-flex justify-center flex-wrap" style="gap: 12px">
           <v-btn color="primary" variant="flat" prepend-icon="mdi-account-plus-outline" :to="{ name: 'cadastro' }">
             Criar conta
           </v-btn>
