@@ -8,6 +8,7 @@ export const useHistoricoStore = defineStore('historico', () => {
   const loaded = ref(false)
 
   async function fetchBuscas() {
+    buscas.value = []
     buscas.value = await getBuscas()
     loaded.value = true
   }
