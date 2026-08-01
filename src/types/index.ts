@@ -5,6 +5,7 @@ export interface UsuarioLogado {
   nome: string
   email: string
   perfil: 'EXAMINADOR' | 'DESENVOLVEDOR'
+  perfilCompleto: boolean
 }
 
 export interface RegistroDto {
@@ -31,6 +32,7 @@ export interface AuthResponse {
   nome: string
   email: string
   perfil: 'EXAMINADOR' | 'DESENVOLVEDOR'
+  perfilCompleto: boolean
 }
 
 export interface EsqueceuSenhaDto {

@@ -58,6 +58,16 @@ export const esqueceuSenha = (dto: EsqueceuSenhaDto): Promise<void> =>
 export const redefinirSenha = (dto: RedefinirSenhaDto): Promise<void> =>
   api.post('/auth/redefinir-senha', dto).then(() => undefined)
 
+export const loginComGoogle = (idToken: string): Promise<AuthResponse> =>
+  api.post<AuthResponse>('/auth/google', { idToken }).then((r) => r.data)
+
+export const completarPerfil = (dto: {
+  matricula: string
+  cpf: string
+  instituicao: string
+}): Promise<AuthResponse> =>
+  api.post<AuthResponse>('/auth/completar-perfil', dto).then((r) => r.data)
+
 // ─── Buscas ───────────────────────────────────────────────────────────────────
 
 export const getBuscas = (): Promise<BuscaListItem[]> =>

@@ -108,6 +108,15 @@
 
       </v-card-text>
       <v-divider />
+      <v-card-text class="pa-6 pt-4">
+        <div class="d-flex align-center mb-4" style="gap: 8px">
+          <v-divider />
+          <span class="text-caption text-medium-emphasis px-2">ou cadastre-se com</span>
+          <v-divider />
+        </div>
+        <div id="google-btn-cadastro" class="d-flex justify-center" />
+      </v-card-text>
+      <v-divider />
       <v-card-text class="text-center py-3">
         <span class="text-caption text-medium-emphasis">Já tem conta? </span>
         <v-btn variant="text" size="small" color="primary" :to="{ name: 'login' }">
@@ -119,12 +128,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { registrar } from '@/api/client'
+import { registrar, loginComGoogle } from '@/api/client'
+import { useAuthStore } from '@/stores/auth'
 import axios from 'axios'
 
+declare global { interface Window { google: any } }
+
 const router = useRouter()
+const authStore = useAuthStore()
 
 const formRef = ref()
 const nome = ref('')
@@ -152,6 +165,32 @@ const senhaCondicoes = computed(() => [
   { label: 'Número (0-9)', ok: /\d/.test(senha.value) },
   { label: 'Caractere especial (@$!%*?&#...)', ok: /[@$!%*?&#^()_\-+=]/.test(senha.value) },
 ])
+
+onMounted(() => {
+  const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID
+  if (!clientId || !window.google) return
+  window.google.accounts.id.initialize({ client_id: clientId, callback: handleGoogle })
+  window.google.accounts.id.renderButton(
+    document.getElementById('google-btn-cadastro'),
+    { theme: 'outline', size: 'large', text: 'signup_with', width: 400 },
+  )
+})
+
+async function handleGoogle(response: { credential: string }) {
+  loading.value = true
+  erro.value = ''
+  try {
+    const res = await loginComGoogle(response.credential)
+    authStore.setAuth(res.token, { id: res.id, nome: res.nome, email: res.email, perfil: res.perfil as any, perfilCompleto: res.perfilCompleto })
+    router.push({ name: res.perfilCompleto ? 'home' : 'completar-perfil' })
+  } catch (err: unknown) {
+    erro.value = axios.isAxiosError(err)
+      ? (err.response?.data?.detail ?? 'Erro ao entrar com Google.')
+      : 'Erro inesperado. Tente novamente.'
+  } finally {
+    loading.value = false
+  }
+}
 
 const required = (v: string) => !!v?.trim() || 'Campo obrigatório'
 const emailRule = (v: string) => /.+@.+\..+/.test(v) || 'E-mail inválido'

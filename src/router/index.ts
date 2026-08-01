@@ -13,6 +13,7 @@ import NovaBusca from '@/views/NovaBusca.vue'
 import HistoricoBuscas from '@/views/HistoricoBuscas.vue'
 import DetalheBusca from '@/views/DetalheBusca.vue'
 import RelatorioView from '@/views/RelatorioView.vue'
+import CompletarPerfilView from '@/views/CompletarPerfilView.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -30,6 +31,7 @@ const router = createRouter({
     { path: '/redefinir-senha',        name: 'redefinir-senha-legacy', component: RedefinirSenhaView },
 
     // ── Protected ────────────────────────────────────────────────────────────
+    { path: '/completar-perfil', name: 'completar-perfil', component: CompletarPerfilView, meta: { requiresAuth: true } },
     { path: '/busca',   name: 'nova-busca',   component: NovaBusca,       meta: { requiresAuth: true } },
     { path: '/historico',name: 'historico',   component: HistoricoBuscas, meta: { requiresAuth: true } },
     {
@@ -53,6 +55,12 @@ router.beforeEach((to) => {
   const auth = useAuthStore()
   if (to.meta.requiresAuth && !auth.isLoggedIn) return { name: 'login' }
   if (to.meta.guestOnly && auth.isLoggedIn) return { name: 'nova-busca' }
+  if (to.meta.requiresAuth
+      && auth.isLoggedIn
+      && auth.usuario?.perfilCompleto === false
+      && to.name !== 'completar-perfil') {
+    return { name: 'completar-perfil' }
+  }
 })
 
 export default router
