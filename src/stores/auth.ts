@@ -19,6 +19,13 @@ export const useAuthStore = defineStore('auth', () => {
     localStorage.setItem('auth_user', JSON.stringify(u))
   }
 
+  function setPerfilCompleto() {
+    if (usuario.value) {
+      usuario.value = { ...usuario.value, perfilCompleto: true }
+      localStorage.setItem('auth_user', JSON.stringify(usuario.value))
+    }
+  }
+
   function logout() {
     token.value = null
     usuario.value = null
@@ -27,5 +34,5 @@ export const useAuthStore = defineStore('auth', () => {
     useHistoricoStore().clear()
   }
 
-  return { token, usuario, isLoggedIn, isDesenvolvedor, setAuth, logout }
+  return { token, usuario, isLoggedIn, isDesenvolvedor, setAuth, setPerfilCompleto, logout }
 })

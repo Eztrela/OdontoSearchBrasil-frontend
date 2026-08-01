@@ -56,6 +56,14 @@
           </div>
         </v-form>
 
+        <div class="d-flex align-center my-4" style="gap: 8px">
+          <v-divider />
+          <span class="text-caption text-medium-emphasis px-2">ou</span>
+          <v-divider />
+        </div>
+
+        <div id="google-btn-login" class="d-flex justify-center" />
+
       </v-card-text>
       <v-divider />
       <v-card-text class="text-center py-3">
@@ -69,11 +77,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { loginApi } from '@/api/client'
+import { loginApi, loginComGoogle } from '@/api/client'
 import { useAuthStore } from '@/stores/auth'
 import axios from 'axios'
+
+declare global { interface Window { google: any } }
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -89,6 +99,33 @@ const erroTipo = ref<'error' | 'warning'>('error')
 const required = (v: string) => !!v || 'Campo obrigatório'
 const emailRule = (v: string) => /.+@.+\..+/.test(v) || 'E-mail inválido'
 
+onMounted(() => {
+  const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID
+  if (!clientId || !window.google) return
+  window.google.accounts.id.initialize({ client_id: clientId, callback: handleGoogle })
+  window.google.accounts.id.renderButton(
+    document.getElementById('google-btn-login'),
+    { theme: 'outline', size: 'large', text: 'signin_with', width: 360 },
+  )
+})
+
+async function handleGoogle(response: { credential: string }) {
+  loading.value = true
+  erro.value = ''
+  try {
+    const res = await loginComGoogle(response.credential)
+    authStore.setAuth(res.token, { id: res.id, nome: res.nome, email: res.email, perfil: res.perfil as any, perfilCompleto: res.perfilCompleto })
+    router.push({ name: res.perfilCompleto ? 'home' : 'completar-perfil' })
+  } catch (err: unknown) {
+    erroTipo.value = 'error'
+    erro.value = axios.isAxiosError(err)
+      ? (err.response?.data?.detail ?? 'Erro ao entrar com Google.')
+      : 'Erro inesperado. Tente novamente.'
+  } finally {
+    loading.value = false
+  }
+}
+
 async function entrar() {
   const { valid } = await formRef.value.validate()
   if (!valid) return
@@ -98,7 +135,7 @@ async function entrar() {
 
   try {
     const res = await loginApi({ email: email.value, senha: senha.value })
-    authStore.setAuth(res.token, { id: res.id, nome: res.nome, email: res.email, perfil: res.perfil })
+    authStore.setAuth(res.token, { id: res.id, nome: res.nome, email: res.email, perfil: res.perfil as any, perfilCompleto: res.perfilCompleto })
     router.push({ name: 'home' })
   } catch (err: unknown) {
     if (axios.isAxiosError(err)) {
