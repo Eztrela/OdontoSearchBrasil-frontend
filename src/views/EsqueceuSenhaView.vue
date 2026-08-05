@@ -6,7 +6,7 @@
         <div class="text-center mb-6">
           <v-icon icon="mdi-lock-reset" size="40" color="primary" class="mb-2" />
           <div class="text-h6 font-weight-bold">Recuperar senha</div>
-          <div class="text-caption text-medium-emphasis">OdontoSearch Brasil</div>
+          <div class="text-caption text-medium-emphasis">Odontoperitus</div>
         </div>
 
         <template v-if="!enviado">

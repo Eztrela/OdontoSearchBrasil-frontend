@@ -73,7 +73,7 @@
           class="text-white text-decoration-none d-flex align-center"
         >
           <v-icon icon="mdi-tooth" class="mr-2" />
-          OdontoSearch Brasil
+          Odontoperitus
         </router-link>
       </v-app-bar-title>
 
@@ -167,7 +167,7 @@
 
     <v-footer color="primary" class="text-center d-flex justify-center py-3">
       <span class="text-body-2 text-white">
-        OdontoSearch Brasil &copy; {{ new Date().getFullYear() }} — Identificação Forense por Padrão Dentário
+        Odontoperitus &copy; {{ new Date().getFullYear() }} — Identificação Forense por Padrão Dentário
       </span>
     </v-footer>
   </v-app>

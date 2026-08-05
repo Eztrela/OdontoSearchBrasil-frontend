@@ -55,7 +55,7 @@
 
       <!-- Print-only page header -->
       <div class="print-header">
-        <div class="print-header__title">OdontoSearch Brasil</div>
+        <div class="print-header__title">Odontoperitus</div>
         <div class="print-header__subtitle">Laudo de Identificação por Padrão Dentário — SB Brasil 2023</div>
         <div class="print-header__meta">Emitido em: {{ dataEmissao }}</div>
       </div>

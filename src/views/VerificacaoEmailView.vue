@@ -7,7 +7,7 @@
           <v-icon icon="mdi-email-check-outline" size="56" color="primary" class="mb-4" />
           <div class="text-h6 font-weight-bold mb-2">Ativar conta</div>
           <p class="text-body-2 text-medium-emphasis mb-6">
-            Clique no botão abaixo para confirmar seu e-mail e ativar sua conta no OdontoSearch Brasil.
+            Clique no botão abaixo para confirmar seu e-mail e ativar sua conta no Odontoperitus.
           </p>
           <v-btn color="primary" variant="flat" size="large" @click="confirmar">
             Confirmar e-mail

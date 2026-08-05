@@ -4,7 +4,7 @@
     <v-sheet color="primary" rounded="xl" class="pa-8 pa-md-12 mb-8 text-white">
       <div class="d-flex flex-column flex-md-row align-center gap-6">
         <div style="flex: 1">
-          <div class="text-h4 font-weight-bold mb-3">OdontoSearch Brasil</div>
+          <div class="text-h4 font-weight-bold mb-3">Odontoperitus</div>
           <div class="text-h6 font-weight-regular mb-4" style="opacity: 0.9">
             Frequência de padrões dentários na população brasileira
           </div>

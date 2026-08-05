@@ -10,9 +10,9 @@
 
         <v-card variant="outlined" rounded="xl" class="mb-4">
           <v-card-text class="pa-6">
-            <div class="text-subtitle-1 font-weight-bold mb-3">O que é o OdontoSearch Brasil?</div>
+            <div class="text-subtitle-1 font-weight-bold mb-3">O que é o Odontoperitus?</div>
             <p class="text-body-2 text-medium-emphasis">
-              O OdontoSearch Brasil é uma ferramenta de apoio à identificação forense por padrão dentário.
+              O Odontoperitus é uma ferramenta de apoio à identificação forense por padrão dentário.
               Dado um conjunto de condições dentárias observadas em um indivíduo (ex.: dente 16 restaurado,
               dente 26 hígido, dente 36 ausente), o sistema calcula com que frequência esse padrão ocorre
               na população brasileira adulta.
