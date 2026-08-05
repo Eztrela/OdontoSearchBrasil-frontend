@@ -66,7 +66,6 @@
         :nic="busca.nic"
         :examinador="busca.examinador"
         :examinador-matricula="busca.examinadorMatricula"
-        :examinador-cpf="busca.examinadorCpf"
         :examinador-instituicao="busca.examinadorInstituicao"
         :sexo-filtro="busca.sexoFiltro"
         :idade-min="busca.idadeMin"
