@@ -35,9 +35,21 @@
             @click:append-inner="mostrarSenha = !mostrarSenha"
           />
 
-          <v-alert v-if="erro" :type="erroTipo" variant="tonal" density="compact" class="mb-4">
+          <v-alert v-if="erro" :type="erroTipo" variant="tonal" density="compact" class="mb-2">
             {{ erro }}
           </v-alert>
+          <div v-if="mostrarReenvio" class="mb-4 text-center">
+            <v-btn
+              variant="text"
+              size="small"
+              color="warning"
+              :loading="loadingReenvio"
+              :disabled="cooldownReenvio > 0"
+              @click="reenviar"
+            >
+              {{ cooldownReenvio > 0 ? `Reenviar em ${cooldownReenvio}s` : 'Reenviar e-mail de verificação' }}
+            </v-btn>
+          </div>
 
           <v-btn
             type="submit"
@@ -77,9 +89,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { loginApi, loginComGoogle } from '@/api/client'
+import { loginApi, loginComGoogle, reenviarVerificacao } from '@/api/client'
 import { useAuthStore } from '@/stores/auth'
 import axios from 'axios'
 
@@ -95,9 +107,42 @@ const mostrarSenha = ref(false)
 const loading = ref(false)
 const erro = ref('')
 const erroTipo = ref<'error' | 'warning'>('error')
+const mostrarReenvio = ref(false)
+const loadingReenvio = ref(false)
+const cooldownReenvio = ref(0)
+let timerReenvio: ReturnType<typeof setInterval> | null = null
 
 const required = (v: string) => !!v || 'Campo obrigatório'
 const emailRule = (v: string) => /.+@.+\..+/.test(v) || 'E-mail inválido'
+
+function iniciarCooldownReenvio() {
+  cooldownReenvio.value = 60
+  timerReenvio = setInterval(() => {
+    cooldownReenvio.value--
+    if (cooldownReenvio.value <= 0 && timerReenvio) {
+      clearInterval(timerReenvio)
+      timerReenvio = null
+    }
+  }, 1000)
+}
+
+async function reenviar() {
+  if (!email.value || cooldownReenvio.value > 0) return
+  loadingReenvio.value = true
+  try {
+    await reenviarVerificacao(email.value)
+    erro.value = 'E-mail reenviado! Verifique sua caixa de entrada.'
+    erroTipo.value = 'warning'
+    iniciarCooldownReenvio()
+  } catch {
+    erro.value = 'Erro ao reenviar. Tente novamente.'
+    erroTipo.value = 'error'
+  } finally {
+    loadingReenvio.value = false
+  }
+}
+
+onUnmounted(() => { if (timerReenvio) clearInterval(timerReenvio) })
 
 onMounted(() => {
   const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID
@@ -132,6 +177,7 @@ async function entrar() {
 
   loading.value = true
   erro.value = ''
+  mostrarReenvio.value = false
 
   try {
     const res = await loginApi({ email: email.value, senha: senha.value })
@@ -142,9 +188,11 @@ async function entrar() {
       const status = err.response?.status
       if (status === 401) {
         erroTipo.value = 'error'
+        mostrarReenvio.value = false
         erro.value = 'E-mail ou senha incorretos.'
       } else if (status === 403) {
         erroTipo.value = 'warning'
+        mostrarReenvio.value = true
         erro.value = err.response?.data?.detail ?? 'E-mail não verificado. Verifique sua caixa de entrada.'
       } else {
         erroTipo.value = 'error'

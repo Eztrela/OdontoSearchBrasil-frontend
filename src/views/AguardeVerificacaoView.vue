@@ -11,6 +11,26 @@
         <v-alert type="info" variant="tonal" density="compact" class="text-left mb-4">
           Não recebeu? Verifique a pasta de spam. O link é válido por 24 horas.
         </v-alert>
+
+        <v-alert v-if="sucesso" type="success" variant="tonal" density="compact" class="mb-4">
+          E-mail reenviado! Verifique sua caixa de entrada.
+        </v-alert>
+        <v-alert v-if="erro" type="error" variant="tonal" density="compact" class="mb-4">
+          {{ erro }}
+        </v-alert>
+
+        <v-btn
+          color="primary"
+          variant="tonal"
+          :loading="loading"
+          :disabled="cooldown > 0"
+          class="mb-3"
+          block
+          @click="reenviar"
+        >
+          {{ cooldown > 0 ? `Reenviar em ${cooldown}s` : 'Reenviar e-mail' }}
+        </v-btn>
+
         <v-btn variant="text" color="primary" :to="{ name: 'login' }">
           Voltar para o login
         </v-btn>
@@ -20,8 +40,48 @@
 </template>
 
 <script setup lang="ts">
+import { ref, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
+import { reenviarVerificacao } from '@/api/client'
+import axios from 'axios'
 
 const route = useRoute()
 const email = route.query.email as string ?? ''
+
+const loading = ref(false)
+const sucesso = ref(false)
+const erro = ref('')
+const cooldown = ref(0)
+let timer: ReturnType<typeof setInterval> | null = null
+
+function iniciarCooldown() {
+  cooldown.value = 60
+  timer = setInterval(() => {
+    cooldown.value--
+    if (cooldown.value <= 0 && timer) {
+      clearInterval(timer)
+      timer = null
+    }
+  }, 1000)
+}
+
+async function reenviar() {
+  if (!email || cooldown.value > 0) return
+  loading.value = true
+  sucesso.value = false
+  erro.value = ''
+  try {
+    await reenviarVerificacao(email)
+    sucesso.value = true
+    iniciarCooldown()
+  } catch (err: unknown) {
+    erro.value = axios.isAxiosError(err)
+      ? (err.response?.data?.detail ?? 'Erro ao reenviar. Tente novamente.')
+      : 'Erro inesperado. Tente novamente.'
+  } finally {
+    loading.value = false
+  }
+}
+
+onUnmounted(() => { if (timer) clearInterval(timer) })
 </script>

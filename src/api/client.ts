@@ -55,6 +55,9 @@ export const verificarEmail = (token: string): Promise<void> =>
 export const esqueceuSenha = (dto: EsqueceuSenhaDto): Promise<void> =>
   api.post('/auth/esqueci-senha', dto).then(() => undefined)
 
+export const reenviarVerificacao = (email: string): Promise<void> =>
+  api.post('/auth/reenviar-verificacao', { email }).then(() => undefined)
+
 export const redefinirSenha = (dto: RedefinirSenhaDto): Promise<void> =>
   api.post('/auth/redefinir-senha', dto).then(() => undefined)
 
