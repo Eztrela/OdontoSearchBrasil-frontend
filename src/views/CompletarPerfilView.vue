@@ -40,6 +40,16 @@
             density="comfortable"
             prepend-inner-icon="mdi-hospital-building"
             :rules="[required]"
+            :class="instituicao === 'Outros' ? 'mb-2' : 'mb-4'"
+          />
+          <v-text-field
+            v-if="instituicao === 'Outros'"
+            v-model="instituicaoCustom"
+            label="Qual instituição?"
+            variant="outlined"
+            density="comfortable"
+            prepend-inner-icon="mdi-pencil-outline"
+            :rules="[required]"
             class="mb-4"
           />
 
@@ -77,6 +87,7 @@ const formRef = ref()
 const matricula = ref('')
 const cpf = ref('')
 const instituicao = ref('')
+const instituicaoCustom = ref('')
 const loading = ref(false)
 const erro = ref('')
 
@@ -86,6 +97,7 @@ const instituicoes = [
   'Numol/IPC - Patos',
   'Numol/IPC - Guarabira',
   'Numol/IPC - Cajazeiras',
+  'Outros',
 ]
 
 const required = (v: string) => !!v?.trim() || 'Campo obrigatório'
@@ -102,7 +114,7 @@ async function salvar() {
     const res = await completarPerfil({
       matricula: matricula.value.trim(),
       cpf: cpf.value,
-      instituicao: instituicao.value,
+      instituicao: instituicao.value === 'Outros' ? instituicaoCustom.value.trim() : instituicao.value,
     })
     authStore.setAuth(res.token, {
       id: res.id,
