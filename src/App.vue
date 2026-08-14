@@ -3,169 +3,156 @@
     <!-- Mobile drawer -->
     <v-navigation-drawer v-model="drawer" temporary location="right">
       <v-list nav class="pt-2">
-        <v-list-item
-          prepend-icon="mdi-home-outline"
-          title="Início"
-          :to="{ name: 'home' }"
-          rounded="lg"
-        />
-        <v-list-item
-          prepend-icon="mdi-book-open-outline"
-          title="Guia"
-          :to="{ name: 'guia' }"
-          rounded="lg"
-        />
-
-        <template v-if="auth.isLoggedIn">
+        <template v-if="isLandingNav">
+          <v-list-item prepend-icon="mdi-home-outline" title="Início" href="/#inicio" rounded="lg" @click="drawer = false" />
+          <v-list-item prepend-icon="mdi-information-outline" title="Sobre" href="/#sobre" rounded="lg" @click="drawer = false" />
+          <v-list-item prepend-icon="mdi-monitor-dashboard" title="Plataforma" :to="{ name: 'login' }" rounded="lg" />
+          <v-list-item prepend-icon="mdi-help-circle-outline" title="Como Funciona" href="/#como-funciona" rounded="lg" @click="drawer = false" />
+          <v-list-item prepend-icon="mdi-book-open-outline" title="Saiba mais" :to="{ name: 'guia' }" rounded="lg" />
+          <v-list-item prepend-icon="mdi-email-outline" title="Contato" href="/#contato" rounded="lg" @click="drawer = false" />
           <v-divider class="my-2" />
-          <v-list-item
-            prepend-icon="mdi-magnify"
-            title="Nova Busca"
-            :to="{ name: 'nova-busca' }"
-            rounded="lg"
-          />
-          <v-list-item
-            prepend-icon="mdi-history"
-            title="Histórico"
-            :to="{ name: 'historico' }"
-            rounded="lg"
-          />
-          <v-divider class="my-2" />
-          <v-list-item class="px-3 py-2">
-            <template #prepend>
-              <v-icon icon="mdi-account-circle-outline" class="mr-3" />
-            </template>
-            <v-list-item-title class="text-body-2 font-weight-bold">
-              {{ auth.usuario?.nome }}
-            </v-list-item-title>
-            <v-list-item-subtitle>{{ auth.usuario?.email }}</v-list-item-subtitle>
-          </v-list-item>
-          <v-list-item
-            prepend-icon="mdi-logout"
-            title="Sair"
-            rounded="lg"
-            @click="sair"
-          />
+          <v-list-item prepend-icon="mdi-login" title="Entrar" :to="{ name: 'login' }" rounded="lg" />
+          <v-list-item prepend-icon="mdi-account-plus-outline" title="Criar conta" :to="{ name: 'cadastro' }" rounded="lg" />
         </template>
 
         <template v-else>
-          <v-divider class="my-2" />
-          <v-list-item
-            prepend-icon="mdi-login"
-            title="Entrar"
-            :to="{ name: 'login' }"
-            rounded="lg"
-          />
-          <v-list-item
-            prepend-icon="mdi-account-plus-outline"
-            title="Criar conta"
-            :to="{ name: 'cadastro' }"
-            rounded="lg"
-          />
+          <v-list-item prepend-icon="mdi-home-outline" title="Início" :to="{ name: 'home' }" rounded="lg" />
+          <v-list-item prepend-icon="mdi-book-open-outline" title="Guia" :to="{ name: 'guia' }" rounded="lg" />
+
+          <template v-if="auth.isLoggedIn">
+            <v-divider class="my-2" />
+            <v-list-item prepend-icon="mdi-magnify" title="Nova Busca" :to="{ name: 'nova-busca' }" rounded="lg" />
+            <v-list-item prepend-icon="mdi-history" title="Histórico" :to="{ name: 'historico' }" rounded="lg" />
+            <v-divider class="my-2" />
+            <v-list-item class="px-3 py-2">
+              <template #prepend>
+                <v-icon icon="mdi-account-circle-outline" class="mr-3" />
+              </template>
+              <v-list-item-title class="text-body-2 font-weight-bold">
+                {{ auth.usuario?.nome }}
+              </v-list-item-title>
+              <v-list-item-subtitle>{{ auth.usuario?.email }}</v-list-item-subtitle>
+            </v-list-item>
+            <v-list-item prepend-icon="mdi-logout" title="Sair" rounded="lg" @click="sair" />
+          </template>
+
+          <template v-else>
+            <v-divider class="my-2" />
+            <v-list-item prepend-icon="mdi-login" title="Entrar" :to="{ name: 'login' }" rounded="lg" />
+            <v-list-item prepend-icon="mdi-account-plus-outline" title="Criar conta" :to="{ name: 'cadastro' }" rounded="lg" />
+          </template>
         </template>
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar color="primary" elevation="2">
-      <v-app-bar-title>
-        <router-link
-          :to="{ name: 'home' }"
-          class="text-white text-decoration-none d-flex align-center"
-        >
-          <v-icon icon="mdi-tooth" class="mr-2" />
-          Odontoperitus
+    <v-app-bar color="white" :elevation="0" class="border-b">
+      <!-- Desktop: logo → links (left) ··· Entrar/user (right) -->
+      <div class="nav-bar-inner d-none d-md-flex align-center">
+        <router-link :to="{ name: 'home' }" class="text-decoration-none d-flex align-center">
+          <img :src="'/logo.png'" alt="OdontoPeritus" class="nav-logo-img" />
         </router-link>
-      </v-app-bar-title>
 
-      <template #append>
-        <!-- Desktop nav -->
-        <div class="d-none d-md-flex align-center" style="gap: 6px; padding-right: 4px">
-          <v-btn
-            :to="{ name: 'guia' }"
-            :variant="route.name === 'guia' ? 'tonal' : 'text'"
-            prepend-icon="mdi-book-open-outline"
-          >
+        <nav v-if="isLandingNav" class="landing-nav">
+          <a href="/#inicio" :class="['nav-lnk', { 'nav-lnk--active': activeSection === 'inicio' }]">Início</a>
+          <a href="/#sobre" :class="['nav-lnk', { 'nav-lnk--active': activeSection === 'sobre' }]">Sobre</a>
+          <RouterLink :to="{ name: 'login' }" :class="['nav-lnk', { 'nav-lnk--active': activeSection === 'plataforma' }]">Plataforma</RouterLink>
+          <a href="/#como-funciona" :class="['nav-lnk', { 'nav-lnk--active': activeSection === 'como-funciona' }]">Como Funciona</a>
+          <RouterLink :to="{ name: 'guia' }" :class="['nav-lnk', { 'nav-lnk--active': activeSection === 'guia' }]">Saiba mais</RouterLink>
+          <a href="/#contato" :class="['nav-lnk', { 'nav-lnk--active': activeSection === 'contato' }]">Contato</a>
+        </nav>
+
+        <nav v-else class="app-nav">
+          <RouterLink :to="{ name: 'guia' }" class="app-lnk">
+            <v-icon size="17" class="app-lnk-icon">mdi-book-open-outline</v-icon>
             Guia
-          </v-btn>
-
+          </RouterLink>
           <template v-if="auth.isLoggedIn">
-            <v-btn
-              :to="{ name: 'nova-busca' }"
-              :variant="route.name === 'nova-busca' ? 'tonal' : 'text'"
-              prepend-icon="mdi-magnify"
-            >
+            <RouterLink :to="{ name: 'nova-busca' }" class="app-lnk">
+              <v-icon size="17" class="app-lnk-icon">mdi-magnify</v-icon>
               Nova Busca
-            </v-btn>
-            <v-btn
+            </RouterLink>
+            <RouterLink
               :to="{ name: 'historico' }"
-              :variant="historicoActive ? 'tonal' : 'text'"
-              prepend-icon="mdi-history"
+              class="app-lnk"
+              :class="{ 'router-link-active': historicoActive }"
             >
+              <v-icon size="17" class="app-lnk-icon">mdi-history</v-icon>
               Histórico
-            </v-btn>
+            </RouterLink>
+          </template>
+        </nav>
 
-            <v-menu>
-              <template #activator="{ props: menuProps }">
-                <v-btn
-                  v-bind="menuProps"
-                  variant="tonal"
-                  color="white"
-                  prepend-icon="mdi-account-circle-outline"
-                  append-icon="mdi-chevron-down"
-                >
-                  {{ auth.usuario?.nome.split(' ')[0] }}
-                </v-btn>
+        <span class="nav-spacer" />
+
+        <RouterLink v-if="isLandingNav" :to="{ name: 'login' }" class="nav-entrar">
+          <i class="mdi mdi-lock-outline" />
+          Entrar
+        </RouterLink>
+
+        <v-menu v-else-if="auth.isLoggedIn">
+          <template #activator="{ props: menuProps }">
+            <button v-bind="menuProps" class="user-btn">
+              <v-icon size="17" class="mr-1">mdi-account-circle-outline</v-icon>
+              {{ auth.usuario?.nome.split(' ')[0] }}
+              <v-icon size="16" class="ml-1">mdi-chevron-down</v-icon>
+            </button>
+          </template>
+          <v-list min-width="220">
+            <v-list-item :subtitle="auth.usuario?.email">
+              <template #title>
+                <span class="text-body-2 font-weight-bold">{{ auth.usuario?.nome }}</span>
               </template>
-              <v-list min-width="220">
-                <v-list-item :subtitle="auth.usuario?.email">
-                  <template #title>
-                    <span class="text-body-2 font-weight-bold">{{ auth.usuario?.nome }}</span>
-                  </template>
-                </v-list-item>
-                <v-list-item>
-                  <v-chip
-                    :color="auth.isDesenvolvedor ? 'warning' : 'primary'"
-                    size="x-small"
-                    variant="tonal"
-                    class="font-weight-bold"
-                  >
-                    {{ auth.isDesenvolvedor ? 'Desenvolvedor' : 'Examinador' }}
-                  </v-chip>
-                </v-list-item>
-                <v-divider class="my-1" />
-                <v-list-item prepend-icon="mdi-logout" title="Sair" @click="sair" />
-              </v-list>
-            </v-menu>
-          </template>
+            </v-list-item>
+            <v-list-item>
+              <v-chip
+                :color="auth.isDesenvolvedor ? 'warning' : 'primary'"
+                size="x-small"
+                variant="tonal"
+                class="font-weight-bold"
+              >
+                {{ auth.isDesenvolvedor ? 'Desenvolvedor' : 'Examinador' }}
+              </v-chip>
+            </v-list-item>
+            <v-divider class="my-1" />
+            <v-list-item prepend-icon="mdi-logout" title="Sair" @click="sair" />
+          </v-list>
+        </v-menu>
 
-          <template v-else>
-            <v-btn
-              :to="{ name: 'login' }"
-              :variant="route.name === 'login' ? 'tonal' : 'text'"
-              prepend-icon="mdi-login"
-            >
-              Entrar
-            </v-btn>
-            <v-btn :to="{ name: 'cadastro' }" variant="tonal" color="white">
-              Criar conta
-            </v-btn>
-          </template>
-        </div>
+        <template v-else>
+          <RouterLink :to="{ name: 'login' }" class="app-lnk">
+            <v-icon size="17" class="app-lnk-icon">mdi-login</v-icon>
+            Entrar
+          </RouterLink>
+          <RouterLink :to="{ name: 'cadastro' }" class="nav-entrar ml-2">
+            Criar conta
+          </RouterLink>
+        </template>
+      </div>
 
-        <!-- Mobile hamburger -->
-        <v-btn icon class="d-flex d-md-none mr-1" @click="drawer = !drawer">
-          <v-icon>mdi-menu</v-icon>
-        </v-btn>
-      </template>
+      <!-- Mobile: logo ··· hamburger -->
+      <div class="nav-bar-mobile d-flex d-md-none align-center">
+        <router-link :to="{ name: 'home' }" class="text-decoration-none">
+          <img :src="'/logo.png'" alt="OdontoPeritus" class="nav-logo-img" />
+        </router-link>
+        <span class="nav-spacer" />
+        <button class="hamburger" @click="drawer = !drawer">
+          <v-icon color="primary">mdi-menu</v-icon>
+        </button>
+      </div>
     </v-app-bar>
 
     <v-main>
-      <v-container class="py-6" max-width="1200">
+      <template v-if="route.name === 'home'">
         <router-view />
-      </v-container>
+      </template>
+      <div v-else class="platform-bg">
+        <v-container class="py-6" max-width="1200">
+          <router-view />
+        </v-container>
+      </div>
     </v-main>
 
-    <v-footer color="primary" class="text-center d-flex justify-center py-3">
+    <v-footer v-if="route.name !== 'home'" color="primary" class="text-center d-flex justify-center py-3">
       <span class="text-body-2 text-white">
         Odontoperitus &copy; {{ new Date().getFullYear() }} — Identificação Forense por Padrão Dentário
       </span>
@@ -174,7 +161,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
@@ -183,9 +170,52 @@ const router = useRouter()
 const route = useRoute()
 const drawer = ref(false)
 
+const isLandingNav = computed(() => !auth.isLoggedIn)
+
 const historicoActive = computed(() =>
   ['historico', 'detalhe-busca', 'relatorio-busca'].includes(route.name as string),
 )
+
+// ── Scroll-spy ────────────────────────────────────────
+const ANCHOR_SECTIONS = ['contato', 'como-funciona', 'sobre', 'inicio'] as const
+const activeSection = ref('inicio')
+let scrollCleanup: (() => void) | null = null
+
+function detectSection() {
+  const scrollPos = window.scrollY + 90
+  for (const id of ANCHOR_SECTIONS) {
+    const el = document.getElementById(id)
+    if (el && el.offsetTop <= scrollPos) {
+      activeSection.value = id
+      return
+    }
+  }
+  activeSection.value = 'inicio'
+}
+
+watch(
+  () => route.name,
+  (name) => {
+    scrollCleanup?.()
+    scrollCleanup = null
+
+    if (name === 'home') {
+      activeSection.value = 'inicio'
+      const handler = () => detectSection()
+      window.addEventListener('scroll', handler, { passive: true })
+      scrollCleanup = () => window.removeEventListener('scroll', handler)
+    } else if (name === 'login' || name === 'cadastro') {
+      activeSection.value = 'plataforma'
+    } else if (name === 'guia') {
+      activeSection.value = 'guia'
+    } else {
+      activeSection.value = ''
+    }
+  },
+  { immediate: true },
+)
+
+onUnmounted(() => scrollCleanup?.())
 
 watch(route, () => {
   drawer.value = false
@@ -196,3 +226,172 @@ function sair() {
   router.push({ name: 'login' })
 }
 </script>
+
+<style>
+html {
+  scroll-behavior: smooth;
+}
+
+/* ── App bar border ──────────────────────────────────── */
+.border-b {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+/* ── Logo ────────────────────────────────────────────── */
+.nav-logo-img {
+  height: 34px;
+  width: auto;
+  display: block;
+}
+
+/* ── Nav bar containers ──────────────────────────────── */
+.nav-bar-inner {
+  flex: 1;
+  height: 100%;
+  padding: 0 16px;
+}
+
+.nav-bar-mobile {
+  flex: 1;
+  height: 100%;
+  padding: 0 12px;
+}
+
+.nav-spacer {
+  flex: 1;
+}
+
+/* ── Landing nav ─────────────────────────────────────── */
+.landing-nav {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-left: 20px;
+}
+
+.nav-lnk {
+  display: inline-block;
+  color: #1A5C6A;
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-decoration: none;
+  padding: 8px 13px;
+  line-height: 1;
+  white-space: nowrap;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.nav-lnk:hover {
+  color: #1A5C6A;
+  border-bottom: 2.5px solid #1A5C6A;
+  padding-bottom: 4px;
+}
+
+.nav-lnk--active {
+  color: #1A5C6A;
+  font-weight: 500;
+  border-bottom: 2.5px solid #1A5C6A;
+  padding-bottom: 4px;
+}
+
+.nav-entrar {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-decoration: none;
+  padding: 9px 18px;
+  background: #1A5C6A;
+  border-radius: 8px;
+  line-height: 1;
+  white-space: nowrap;
+  transition: background 0.15s ease;
+}
+
+.nav-entrar:hover {
+  background: #154f5c;
+}
+
+/* ── App nav ─────────────────────────────────────────── */
+.app-nav {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: 20px;
+}
+
+.app-lnk {
+  display: inline-flex;
+  align-items: center;
+  color: #475569;
+  font-size: 14.5px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-decoration: none;
+  padding: 7px 12px;
+  border-radius: 7px;
+  line-height: 1;
+  white-space: nowrap;
+  transition: color 0.15s ease, background 0.12s ease;
+}
+
+.app-lnk-icon {
+  margin-right: 5px;
+  opacity: 0.75;
+}
+
+.app-lnk:hover {
+  color: #1A5C6A;
+  background: rgba(26, 92, 106, 0.06);
+}
+
+.app-lnk.router-link-active {
+  color: #1A5C6A;
+  font-weight: 600;
+  background: rgba(26, 92, 106, 0.08);
+}
+
+/* ── User menu button ────────────────────────────────── */
+.user-btn {
+  display: inline-flex;
+  align-items: center;
+  color: #1A5C6A;
+  font-size: 14.5px;
+  font-weight: 600;
+  letter-spacing: 0;
+  padding: 7px 14px;
+  border: 1.5px solid #1A5C6A;
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+  margin-left: 8px;
+  line-height: 1;
+  transition: background 0.15s ease, color 0.15s ease;
+  font-family: inherit;
+}
+
+.user-btn:hover {
+  background: #1A5C6A;
+  color: #ffffff;
+}
+
+/* ── Mobile hamburger ────────────────────────────────── */
+.hamburger {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+}
+
+/* ── Platform background ─────────────────────────────── */
+.platform-bg {
+  min-height: 100%;
+  background: linear-gradient(160deg, #f0f9fa 0%, #ffffff 55%);
+}
+</style>
