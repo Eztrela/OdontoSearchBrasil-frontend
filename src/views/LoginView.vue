@@ -4,7 +4,6 @@
       <v-card-text class="pa-6 pb-4">
 
         <div class="text-center mb-6">
-          <v-icon icon="mdi-tooth" size="40" color="primary" class="mb-2" />
           <div class="text-h6 font-weight-bold">Entrar na plataforma</div>
           <div class="text-caption text-medium-emphasis">Odontoperitus</div>
         </div>
