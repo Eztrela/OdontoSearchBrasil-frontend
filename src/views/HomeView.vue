@@ -48,38 +48,78 @@
                 <div class="monitor-screen">
                   <div class="app-mockup">
                     <div class="mockup-header">
-                      <v-icon color="primary" size="18" class="mr-2">mdi-tooth-outline</v-icon>
+                      <v-icon color="primary" size="18" class="mr-2">mdi-magnify</v-icon>
                       <span class="mockup-title">Nova Busca de Identificação</span>
                     </div>
-                    <div class="mockup-body">
-                      <div class="mockup-form-row">
-                        <div class="mockup-label">NIC</div>
-                        <div class="mockup-field">2022/0025</div>
-                      </div>
-                      <div class="mockup-form-row">
-                        <div class="mockup-label">Examinador</div>
-                        <div class="mockup-field">Pablo Estrela</div>
-                      </div>
-                      <div class="mockup-divider" />
-                      <div class="mockup-two-col">
-                        <div class="mockup-col-left">
-                          <div class="mockup-chart-label">Dados da Busca</div>
-                          <div class="mockup-field mb-2">Filtros opcionais ∨</div>
-                          <div class="mockup-btn-sm">⊞ CALCULAR FREQUÊNCIA</div>
+                    <div class="mockup-body mockup-body--grid">
+                      <!-- Painel esquerdo: formulário -->
+                      <div class="mkp-left">
+                        <div class="mkp-section-label">Dados da Busca</div>
+                        <div class="mkp-nic-row">
+                          <div class="mkp-field-xs">2022 ▾</div>
+                          <span class="mkp-sep">/</span>
+                          <div class="mkp-field-xs">0025</div>
                         </div>
-                        <div class="mockup-col-right">
-                          <div class="mockup-chart-label">Diagrama Odontológico</div>
-                          <div class="mockup-arch">
-                            <div v-for="(t, i) in upperTeeth" :key="`u${i}`" class="mockup-tooth" :class="t" />
-                          </div>
-                          <div class="mockup-arch">
-                            <div v-for="(t, i) in lowerTeeth" :key="`l${i}`" class="mockup-tooth" :class="t" />
-                          </div>
-                          <div class="mockup-legend">
-                            <span class="legend-item"><span class="legend-dot healthy" />Hígido</span>
-                            <span class="legend-item"><span class="legend-dot restored" />Restaurado</span>
-                            <span class="legend-item"><span class="legend-dot missing" />Ausente</span>
-                          </div>
+                        <div class="mkp-field">Examinador ▾</div>
+                        <div class="mkp-field">Filtros opcionais ▾</div>
+                        <div class="mkp-calc-btn">⊞ CALCULAR FREQUÊNCIA</div>
+                      </div>
+                      <!-- Painel direito: diagrama -->
+                      <div class="mkp-right">
+                        <div class="mkp-section-label">Diagrama Odontológico</div>
+                        <svg class="arch-svg" viewBox="0 0 240 215" xmlns="http://www.w3.org/2000/svg">
+                          <text x="120" y="8" text-anchor="middle" font-size="6" fill="#aaa">↑ Superior</text>
+                          <!-- Arco superior (18→28) -->
+                          <g fill="#e8e8e8" stroke="#c0c0c0" stroke-width="0.5">
+                            <g transform="translate(25,97)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">18</text></g>
+                            <g transform="translate(27,81)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">17</text></g>
+                            <g transform="translate(33,67)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">16</text></g>
+                            <g transform="translate(43,53)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">15</text></g>
+                            <g transform="translate(57,41)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">14</text></g>
+                            <g transform="translate(73,32)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">13</text></g>
+                            <g transform="translate(91,26)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">12</text></g>
+                            <g transform="translate(110,22)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">11</text></g>
+                            <g transform="translate(130,22)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">21</text></g>
+                            <g transform="translate(149,26)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">22</text></g>
+                            <g transform="translate(168,32)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">23</text></g>
+                            <g transform="translate(184,41)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">24</text></g>
+                            <g transform="translate(197,53)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">25</text></g>
+                            <g transform="translate(207,67)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">26</text></g>
+                            <g transform="translate(213,81)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">27</text></g>
+                            <g transform="translate(215,97)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">28</text></g>
+                          </g>
+                          <!-- Separador -->
+                          <line x1="15" y1="111" x2="225" y2="111" stroke="#ebebeb" stroke-width="0.8"/>
+                          <!-- Arco inferior (48→38) -->
+                          <g fill="#e8e8e8" stroke="#c0c0c0" stroke-width="0.5">
+                            <g transform="translate(25,125)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">48</text></g>
+                            <g transform="translate(27,141)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">47</text></g>
+                            <g transform="translate(33,155)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">46</text></g>
+                            <g transform="translate(43,169)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">45</text></g>
+                            <g transform="translate(57,181)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">44</text></g>
+                            <g transform="translate(73,190)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">43</text></g>
+                            <g transform="translate(91,196)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">42</text></g>
+                            <g transform="translate(110,200)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">41</text></g>
+                            <g transform="translate(130,200)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">31</text></g>
+                            <g transform="translate(149,196)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">32</text></g>
+                            <g transform="translate(168,190)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">33</text></g>
+                            <g transform="translate(184,181)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">34</text></g>
+                            <g transform="translate(197,169)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">35</text></g>
+                            <g transform="translate(207,155)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">36</text></g>
+                            <g transform="translate(213,141)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">37</text></g>
+                            <g transform="translate(215,125)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">38</text></g>
+                          </g>
+                          <text x="120" y="213" text-anchor="middle" font-size="6" fill="#aaa">↓ Inferior</text>
+                        </svg>
+                        <!-- Legenda -->
+                        <div class="mkp-legend">
+                          <span><span class="mkp-dot" style="background:#e0e0e0"/>Não informado</span>
+                          <span><span class="mkp-dot" style="background:#4CAF50"/>Hígido</span>
+                          <span><span class="mkp-dot" style="background:#f44336"/>Cariado</span>
+                          <span><span class="mkp-dot" style="background:#FF9800"/>Rest. c/ cárie</span>
+                          <span><span class="mkp-dot" style="background:#2196F3"/>Rest. s/ cárie</span>
+                          <span><span class="mkp-dot" style="background:#212121"/>Ausente</span>
+                          <span><span class="mkp-dot" style="background:#FFC107"/>Ignorar (/)</span>
                         </div>
                       </div>
                     </div>
@@ -239,10 +279,6 @@ import { useAuthStore } from '@/stores/auth'
 
 const auth = useAuthStore()
 
-const upperTeeth = ['healthy', 'healthy', 'healthy', 'restored', 'healthy', 'missing', 'healthy',
-                    'healthy', 'healthy', 'restored', 'healthy', 'healthy', 'restored', 'healthy']
-const lowerTeeth = ['healthy', 'missing', 'healthy', 'healthy', 'restored', 'healthy', 'healthy',
-                    'healthy', 'healthy', 'healthy', 'restored', 'healthy', 'missing', 'healthy']
 
 const features = [
   {
@@ -392,155 +428,111 @@ const steps = [
   padding: 16px 18px 8px;
 }
 
-.mockup-form-row {
+.mockup-body--grid {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 10px;
+  padding: 10px 14px 10px;
+}
+
+/* ── Painel esquerdo (formulário) ───────────────────────── */
+.mkp-left {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.mkp-section-label {
+  font-size: 9px;
+  font-weight: 700;
+  color: #1A5C6A;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+
+.mkp-nic-row {
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
-  gap: 10px;
+  gap: 3px;
 }
 
-.mockup-label {
-  font-size: 11px;
-  color: #90a4ae;
-  width: 72px;
-  flex-shrink: 0;
-}
-
-.mockup-field {
+.mkp-field-xs {
   background: #f5f7f8;
   border: 1px solid #e0e7ea;
-  border-radius: 6px;
-  padding: 5px 10px;
-  font-size: 12px;
+  border-radius: 4px;
+  padding: 3px 5px;
+  font-size: 9px;
   color: #37474f;
   flex: 1;
+  white-space: nowrap;
 }
 
-.mockup-divider {
-  border-top: 1px solid #eef3f5;
-  margin: 10px 0 12px;
+.mkp-sep {
+  font-size: 11px;
+  color: #90a4ae;
+  line-height: 1;
 }
 
-.mockup-two-col {
-  display: flex;
-  gap: 14px;
+.mkp-field {
+  background: #f5f7f8;
+  border: 1px solid #e0e7ea;
+  border-radius: 4px;
+  padding: 4px 7px;
+  font-size: 9px;
+  color: #37474f;
 }
 
-.mockup-col-left {
-  width: 140px;
-  flex-shrink: 0;
-}
-
-.mockup-col-right {
-  flex: 1;
-  min-width: 0;
-}
-
-.mockup-btn-sm {
+.mkp-calc-btn {
   background: #1A5C6A;
   color: white;
-  border-radius: 6px;
-  padding: 7px 8px;
+  border-radius: 5px;
+  padding: 6px 4px;
   text-align: center;
-  font-size: 9.5px;
+  font-size: 7.5px;
   font-weight: 700;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.2px;
   cursor: default;
   margin-top: 4px;
 }
 
-.mb-2 { margin-bottom: 8px; }
-
-.mockup-chart-label {
-  font-size: 10px;
-  font-weight: 600;
-  color: #1A5C6A;
-  margin-bottom: 6px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.mockup-arch {
+/* ── Painel direito (diagrama) ──────────────────────────── */
+.mkp-right {
   display: flex;
-  gap: 2px;
-  margin-bottom: 3px;
-  justify-content: center;
-  flex-wrap: wrap;
+  flex-direction: column;
+  min-width: 0;
 }
 
-.mockup-tooth {
-  width: 14px;
-  height: 14px;
-  border-radius: 3px;
-  border: 1px solid #cdd9dc;
+.arch-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 2px 0;
 }
 
-.mockup-tooth.healthy { background: #ffffff; }
-.mockup-tooth.restored { background: #5AADAD; border-color: #1A5C6A; }
-.mockup-tooth.missing { background: #cfd8dc; border-color: #90a4ae; }
-
-.mockup-legend {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-  margin-top: 8px;
-  font-size: 10px;
+.mkp-legend {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px 6px;
+  margin-top: 3px;
+  font-size: 7.5px;
   color: #78909c;
 }
 
-.legend-item {
+.mkp-legend span {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
+  white-space: nowrap;
 }
 
-.legend-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 2px;
-  border: 1px solid #cdd9dc;
+.mkp-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
   display: inline-block;
-}
-
-.legend-dot.healthy { background: #fff; }
-.legend-dot.restored { background: #5AADAD; border-color: #1A5C6A; }
-.legend-dot.missing { background: #cfd8dc; }
-
-.mockup-footer {
-  background: #f5fbfc;
-  border-top: 1px solid #e0f0f3;
-  padding: 12px 18px;
-}
-
-.mockup-result {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 10px;
-}
-
-.result-label {
-  font-size: 11px;
-  color: #90a4ae;
-  flex: 1;
-}
-
-.result-value {
-  font-size: 15px;
-  font-weight: 700;
-  color: #1A5C6A;
-}
-
-.mockup-btn {
-  background: #1A5C6A;
-  color: white;
-  border-radius: 8px;
-  padding: 10px;
-  text-align: center;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  cursor: default;
+  flex-shrink: 0;
+  border: 0.5px solid rgba(0,0,0,0.12);
 }
 
 /* ── Features ───────────────────────────────────────────── */
