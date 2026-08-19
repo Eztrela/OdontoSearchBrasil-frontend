@@ -55,30 +55,33 @@
 
                       <!-- Painel esquerdo: formulário -->
                       <div class="mkp-left">
-                        <!-- Card Dados da Busca -->
                         <div class="mkp-card">
                           <div class="mkp-card-title">Dados da Busca</div>
-                          <div class="mkp-outlined-field">
-                            <span class="mkp-float-label">NIC</span>
-                            <span class="mkp-field-val">2022/0025</span>
-                          </div>
-                          <div class="mkp-hint">Formato: AAAA/NNNN</div>
-                          <div class="mkp-outlined-field mkp-mt">
-                            <span class="mkp-float-label">Examinador</span>
-                            <div class="mkp-select-row">
-                              <span>Pablo Estrela</span><span class="mkp-chevron">▾</span>
+                          <!-- Ano / Número -->
+                          <div class="mkp-ano-num-row">
+                            <div class="mkp-outlined-field mkp-field--ano">
+                              <span class="mkp-float-label">Ano</span>
+                              <div class="mkp-select-row">
+                                <span class="mkp-field-val">2026</span>
+                                <span class="mkp-chevron">▾</span>
+                              </div>
+                            </div>
+                            <span class="mkp-slash">/</span>
+                            <div class="mkp-outlined-field mkp-field--num">
+                              <span class="mkp-float-label">Número</span>
+                              <span class="mkp-placeholder">0001</span>
                             </div>
                           </div>
-                          <div class="mkp-novo-link">+ NOVO EXAMINADOR</div>
-                        </div>
-                        <!-- Filtros -->
-                        <div class="mkp-card mkp-card--sm mkp-mt-sm">
-                          <div class="mkp-select-row mkp-select-row--flat">
-                            <span>Filtros opcionais</span><span class="mkp-chevron">▾</span>
+                          <!-- Filtros opcionais -->
+                          <div class="mkp-filtros mkp-mt">
+                            <div class="mkp-select-row">
+                              <span>Filtros opcionais</span>
+                              <span class="mkp-chevron">▾</span>
+                            </div>
                           </div>
+                          <!-- Calcular -->
+                          <div class="mkp-calc-btn mkp-mt">⊞ CALCULAR FREQUÊNCIA</div>
                         </div>
-                        <!-- Calcular -->
-                        <div class="mkp-calc-btn mkp-mt-sm">⊞ CALCULAR FREQUÊNCIA</div>
                       </div>
 
                       <!-- Painel direito: Odontogram real escalado -->
@@ -430,11 +433,7 @@ const steps = [
   border: 1px solid #e0e7ea;
   border-radius: 6px;
   background: #fff;
-  padding: 8px 10px;
-}
-
-.mkp-card--sm {
-  padding: 7px 10px;
+  padding: 10px 12px;
 }
 
 .mkp-card--full {
@@ -443,10 +442,10 @@ const steps = [
 }
 
 .mkp-card-title {
-  font-size: 10px;
+  font-size: 10.5px;
   font-weight: 600;
   color: #37474f;
-  margin-bottom: 7px;
+  margin-bottom: 8px;
 }
 
 .mkp-card-header {
@@ -460,12 +459,34 @@ const steps = [
   color: #90a4ae;
 }
 
+/* Linha Ano / Número */
+.mkp-ano-num-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.mkp-field--ano {
+  min-width: 55px;
+  max-width: 55px;
+}
+
+.mkp-field--num {
+  flex: 1;
+}
+
+.mkp-slash {
+  font-size: 13px;
+  color: #607d8b;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
 /* Campos outlined (imitam Vuetify outlined) */
 .mkp-outlined-field {
   border: 1px solid #b0bec5;
   border-radius: 4px;
-  padding: 4px 7px 3px;
-  position: relative;
+  padding: 4px 7px 4px;
 }
 
 .mkp-float-label {
@@ -473,7 +494,7 @@ const steps = [
   font-size: 7px;
   color: #607d8b;
   line-height: 1;
-  margin-bottom: 1px;
+  margin-bottom: 2px;
 }
 
 .mkp-field-val {
@@ -482,12 +503,9 @@ const steps = [
   font-weight: 500;
 }
 
-.mkp-hint {
-  font-size: 7px;
-  color: #90a4ae;
-  margin-top: 2px;
-  margin-bottom: 4px;
-  padding-left: 1px;
+.mkp-placeholder {
+  font-size: 9.5px;
+  color: #b0bec5;
 }
 
 .mkp-select-row {
@@ -498,31 +516,25 @@ const steps = [
   color: #263238;
 }
 
-.mkp-select-row--flat {
-  font-size: 9.5px;
-}
-
 .mkp-chevron {
   font-size: 8px;
   color: #90a4ae;
 }
 
-.mkp-novo-link {
-  font-size: 8px;
-  color: #1A5C6A;
-  font-weight: 600;
-  margin-top: 5px;
-  cursor: default;
+/* Filtros opcionais (imita v-expansion-panel) */
+.mkp-filtros {
+  border: 1px solid #e0e7ea;
+  border-radius: 4px;
+  padding: 7px 10px;
 }
 
-.mkp-mt   { margin-top: 6px; }
-.mkp-mt-sm { margin-top: 6px; }
+.mkp-mt { margin-top: 8px; }
 
 .mkp-calc-btn {
   background: #1A5C6A;
   color: white;
   border-radius: 5px;
-  padding: 8px 4px;
+  padding: 9px 4px;
   text-align: center;
   font-size: 8px;
   font-weight: 700;
