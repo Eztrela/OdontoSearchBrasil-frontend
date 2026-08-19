@@ -7,7 +7,7 @@
         <v-row align="center" class="fill-height" style="min-height: 88vh">
 
           <!-- Left: text -->
-          <v-col cols="12" md="6" class="hero-text">
+          <v-col cols="12" md="5" class="hero-text">
             <div class="hero-logo mb-5">
               <span class="hero-logo-odonto">Odonto</span><span class="hero-logo-peritus">Peritus</span>
             </div>
@@ -41,7 +41,7 @@
           </v-col>
 
           <!-- Right: monitor mockup -->
-          <v-col cols="12" md="6" class="d-flex justify-center align-center">
+          <v-col cols="12" md="7" class="d-flex justify-center align-center">
             <div class="monitor-wrapper">
               <div class="monitor-frame">
                 <div class="monitor-camera" />
@@ -342,7 +342,7 @@ const steps = [
   flex-direction: column;
   align-items: center;
   width: 100%;
-  max-width: 540px;
+  max-width: 680px;
 }
 
 .monitor-frame {
@@ -417,9 +417,9 @@ const steps = [
 
 .mockup-body--grid {
   display: grid;
-  grid-template-columns: 145px 1fr;
-  gap: 10px;
-  padding: 10px 12px 12px;
+  grid-template-columns: 150px 1fr;
+  gap: 12px;
+  padding: 10px 14px 14px;
 }
 
 /* ── Painel esquerdo ────────────────────────────────────── */
@@ -549,8 +549,8 @@ const steps = [
 
 .mkp-odonto-clip {
   position: relative;
-  /* Altura visível = altura natural do Odontogram (edit, ~580px) × scale (0.74) ≈ 430px */
-  height: 430px;
+  /* Altura visível = altura natural do Odontogram (edit, ~588px) × scale (0.52) ≈ 306px */
+  height: 310px;
   overflow: hidden;
 }
 
@@ -560,7 +560,7 @@ const steps = [
   left: 0;
   /* Largura natural do Odontogram: SVG(280) + gap(20) + legenda(148) = 448px */
   width: 448px;
-  transform: scale(0.74);
+  transform: scale(0.52);
   transform-origin: top left;
   pointer-events: none;
 }
@@ -831,7 +831,7 @@ const steps = [
   }
 
   .monitor-wrapper {
-    max-width: 380px;
+    max-width: 480px;
     margin-top: 40px;
   }
 
