@@ -438,7 +438,6 @@ const steps = [
 }
 
 .mkp-card--full {
-  height: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -534,15 +533,13 @@ const steps = [
 /* ── Painel direito (Odontogram real escalado) ───────────── */
 .mkp-right {
   min-width: 0;
-  overflow: hidden;
 }
 
 .mkp-odonto-clip {
   position: relative;
-  /* Altura visível = altura natural do Odontogram (edit, ~588px) × scale (0.74) ≈ 435px */
-  height: 435px;
+  /* Altura visível = altura natural do Odontogram (edit, ~580px) × scale (0.74) ≈ 430px */
+  height: 430px;
   overflow: hidden;
-  flex: 1;
 }
 
 .mkp-odonto-scale {
