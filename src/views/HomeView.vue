@@ -548,20 +548,18 @@ const steps = [
 }
 
 .mkp-odonto-clip {
-  position: relative;
-  /* Altura visível = altura natural do Odontogram (edit, ~588px) × scale (0.52) ≈ 306px */
   height: 310px;
   overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .mkp-odonto-scale {
-  position: absolute;
-  top: 0;
-  left: 0;
-  /* Largura natural do Odontogram: SVG(280) + gap(20) + legenda(148) = 448px */
+  flex-shrink: 0;
   width: 448px;
   transform: scale(0.52);
-  transform-origin: top left;
+  transform-origin: top center;
   pointer-events: none;
 }
 
