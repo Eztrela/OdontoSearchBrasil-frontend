@@ -64,62 +64,13 @@
                         <div class="mkp-field">Filtros opcionais ▾</div>
                         <div class="mkp-calc-btn">⊞ CALCULAR FREQUÊNCIA</div>
                       </div>
-                      <!-- Painel direito: diagrama -->
+                      <!-- Painel direito: diagrama real escalado -->
                       <div class="mkp-right">
                         <div class="mkp-section-label">Diagrama Odontológico</div>
-                        <svg class="arch-svg" viewBox="0 0 240 215" xmlns="http://www.w3.org/2000/svg">
-                          <text x="120" y="8" text-anchor="middle" font-size="6" fill="#aaa">↑ Superior</text>
-                          <!-- Arco superior (18→28) -->
-                          <g fill="#e8e8e8" stroke="#c0c0c0" stroke-width="0.5">
-                            <g transform="translate(25,97)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">18</text></g>
-                            <g transform="translate(27,81)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">17</text></g>
-                            <g transform="translate(33,67)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">16</text></g>
-                            <g transform="translate(43,53)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">15</text></g>
-                            <g transform="translate(57,41)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">14</text></g>
-                            <g transform="translate(73,32)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">13</text></g>
-                            <g transform="translate(91,26)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">12</text></g>
-                            <g transform="translate(110,22)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">11</text></g>
-                            <g transform="translate(130,22)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">21</text></g>
-                            <g transform="translate(149,26)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">22</text></g>
-                            <g transform="translate(168,32)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">23</text></g>
-                            <g transform="translate(184,41)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">24</text></g>
-                            <g transform="translate(197,53)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">25</text></g>
-                            <g transform="translate(207,67)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">26</text></g>
-                            <g transform="translate(213,81)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">27</text></g>
-                            <g transform="translate(215,97)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">28</text></g>
-                          </g>
-                          <!-- Separador -->
-                          <line x1="15" y1="111" x2="225" y2="111" stroke="#ebebeb" stroke-width="0.8"/>
-                          <!-- Arco inferior (48→38) -->
-                          <g fill="#e8e8e8" stroke="#c0c0c0" stroke-width="0.5">
-                            <g transform="translate(25,125)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">48</text></g>
-                            <g transform="translate(27,141)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">47</text></g>
-                            <g transform="translate(33,155)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">46</text></g>
-                            <g transform="translate(43,169)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">45</text></g>
-                            <g transform="translate(57,181)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">44</text></g>
-                            <g transform="translate(73,190)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">43</text></g>
-                            <g transform="translate(91,196)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">42</text></g>
-                            <g transform="translate(110,200)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">41</text></g>
-                            <g transform="translate(130,200)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">31</text></g>
-                            <g transform="translate(149,196)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">32</text></g>
-                            <g transform="translate(168,190)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">33</text></g>
-                            <g transform="translate(184,181)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">34</text></g>
-                            <g transform="translate(197,169)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">35</text></g>
-                            <g transform="translate(207,155)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">36</text></g>
-                            <g transform="translate(213,141)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">37</text></g>
-                            <g transform="translate(215,125)"><ellipse rx="8" ry="9"/><text font-size="4" text-anchor="middle" dominant-baseline="middle" fill="#888" stroke="none">38</text></g>
-                          </g>
-                          <text x="120" y="213" text-anchor="middle" font-size="6" fill="#aaa">↓ Inferior</text>
-                        </svg>
-                        <!-- Legenda -->
-                        <div class="mkp-legend">
-                          <span><span class="mkp-dot" style="background:#e0e0e0"/>Não informado</span>
-                          <span><span class="mkp-dot" style="background:#4CAF50"/>Hígido</span>
-                          <span><span class="mkp-dot" style="background:#f44336"/>Cariado</span>
-                          <span><span class="mkp-dot" style="background:#FF9800"/>Rest. c/ cárie</span>
-                          <span><span class="mkp-dot" style="background:#2196F3"/>Rest. s/ cárie</span>
-                          <span><span class="mkp-dot" style="background:#212121"/>Ausente</span>
-                          <span><span class="mkp-dot" style="background:#FFC107"/>Ignorar (/)</span>
+                        <div class="mkp-odonto-clip">
+                          <div class="mkp-odonto-scale">
+                            <Odontogram mode="readonly" />
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -276,6 +227,7 @@
 
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth'
+import Odontogram from '@/components/Odontogram.vue'
 
 const auth = useAuthStore()
 
@@ -430,9 +382,9 @@ const steps = [
 
 .mockup-body--grid {
   display: grid;
-  grid-template-columns: 120px 1fr;
-  gap: 10px;
-  padding: 10px 14px 10px;
+  grid-template-columns: 110px 1fr;
+  gap: 8px;
+  padding: 8px 12px 6px;
 }
 
 /* ── Painel esquerdo (formulário) ───────────────────────── */
@@ -496,43 +448,34 @@ const steps = [
   margin-top: 4px;
 }
 
-/* ── Painel direito (diagrama) ──────────────────────────── */
+/* ── Painel direito (diagrama real escalado) ─────────────── */
 .mkp-right {
   display: flex;
   flex-direction: column;
   min-width: 0;
+  overflow: hidden;
 }
 
-.arch-svg {
-  width: 100%;
-  height: auto;
-  display: block;
-  margin: 2px 0;
+/* Container que recorta a área visível após o scale */
+.mkp-odonto-clip {
+  position: relative;
+  /* altura visível = altura real do componente × fator de escala
+     Odontogram readonly: ~510px × 0.52 ≈ 265px */
+  height: 265px;
+  overflow: hidden;
 }
 
-.mkp-legend {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1px 6px;
-  margin-top: 3px;
-  font-size: 7.5px;
-  color: #78909c;
-}
-
-.mkp-legend span {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  white-space: nowrap;
-}
-
-.mkp-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  display: inline-block;
-  flex-shrink: 0;
-  border: 0.5px solid rgba(0,0,0,0.12);
+/* Elemento que aplica o zoom para caber no monitor */
+.mkp-odonto-scale {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: scale(0.52);
+  transform-origin: top left;
+  /* Largura real do componente: SVG 280px + legenda 148px + gap 20px = 448px.
+     Para não clipar horizontalmente: 448px / 0.52 ≈ 862px → definimos como largura fixa */
+  width: 862px;
+  pointer-events: none;
 }
 
 /* ── Features ───────────────────────────────────────────── */
