@@ -6,12 +6,6 @@
         <!-- Links públicos (sempre visíveis) -->
         <v-list-item prepend-icon="mdi-home-outline" title="Início" href="/#inicio" rounded="lg" @click="drawer = false" />
         <v-list-item prepend-icon="mdi-information-outline" title="Sobre" href="/#sobre" rounded="lg" @click="drawer = false" />
-        <v-list-item
-          prepend-icon="mdi-monitor-dashboard"
-          title="Plataforma"
-          :to="auth.isLoggedIn ? { name: 'nova-busca' } : { name: 'login' }"
-          rounded="lg"
-        />
         <v-list-item prepend-icon="mdi-help-circle-outline" title="Como Funciona" href="/#como-funciona" rounded="lg" @click="drawer = false" />
         <v-list-item prepend-icon="mdi-book-open-outline" title="Saiba mais" :to="{ name: 'guia' }" rounded="lg" />
         <v-list-item prepend-icon="mdi-email-outline" title="Contato" href="/#contato" rounded="lg" @click="drawer = false" />
@@ -51,10 +45,6 @@
         <nav class="landing-nav">
           <a href="/#inicio" :class="['nav-lnk', { 'nav-lnk--active': activeSection === 'inicio' }]">Início</a>
           <a href="/#sobre" :class="['nav-lnk', { 'nav-lnk--active': activeSection === 'sobre' }]">Sobre</a>
-          <RouterLink
-            :to="auth.isLoggedIn ? { name: 'nova-busca' } : { name: 'login' }"
-            :class="['nav-lnk', { 'nav-lnk--active': activeSection === 'plataforma' }]"
-          >Plataforma</RouterLink>
           <a href="/#como-funciona" :class="['nav-lnk', { 'nav-lnk--active': activeSection === 'como-funciona' }]">Como Funciona</a>
           <RouterLink :to="{ name: 'guia' }" :class="['nav-lnk', { 'nav-lnk--active': activeSection === 'guia' }]">Saiba mais</RouterLink>
           <a href="/#contato" :class="['nav-lnk', { 'nav-lnk--active': activeSection === 'contato' }]">Contato</a>
@@ -64,18 +54,20 @@
 
         <!-- Opções exclusivas para usuário logado -->
         <template v-if="auth.isLoggedIn">
-          <RouterLink :to="{ name: 'nova-busca' }" class="app-lnk">
-            <v-icon size="17" class="app-lnk-icon">mdi-magnify</v-icon>
-            Nova Busca
-          </RouterLink>
-          <RouterLink
-            :to="{ name: 'historico' }"
-            class="app-lnk"
-            :class="{ 'router-link-active': historicoActive }"
-          >
-            <v-icon size="17" class="app-lnk-icon">mdi-history</v-icon>
-            Histórico
-          </RouterLink>
+          <nav class="app-nav">
+            <RouterLink :to="{ name: 'nova-busca' }" class="app-lnk">
+              <v-icon size="17" class="app-lnk-icon">mdi-magnify</v-icon>
+              Nova Busca
+            </RouterLink>
+            <RouterLink
+              :to="{ name: 'historico' }"
+              class="app-lnk"
+              :class="{ 'router-link-active': historicoActive }"
+            >
+              <v-icon size="17" class="app-lnk-icon">mdi-history</v-icon>
+              Histórico
+            </RouterLink>
+          </nav>
           <v-menu>
             <template #activator="{ props: menuProps }">
               <button v-bind="menuProps" class="user-btn">
@@ -304,8 +296,10 @@ html {
 .app-nav {
   display: flex;
   align-items: center;
-  gap: 2px;
-  margin-left: 20px;
+  gap: 6px;
+  margin-left: 16px;
+  padding-left: 16px;
+  border-left: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .app-lnk {
