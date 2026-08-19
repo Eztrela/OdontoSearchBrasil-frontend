@@ -52,27 +52,50 @@
                       <span class="mockup-title">Nova Busca de Identificação</span>
                     </div>
                     <div class="mockup-body mockup-body--grid">
+
                       <!-- Painel esquerdo: formulário -->
                       <div class="mkp-left">
-                        <div class="mkp-section-label">Dados da Busca</div>
-                        <div class="mkp-nic-row">
-                          <div class="mkp-field-xs">2022 ▾</div>
-                          <span class="mkp-sep">/</span>
-                          <div class="mkp-field-xs">0025</div>
+                        <!-- Card Dados da Busca -->
+                        <div class="mkp-card">
+                          <div class="mkp-card-title">Dados da Busca</div>
+                          <div class="mkp-outlined-field">
+                            <span class="mkp-float-label">NIC</span>
+                            <span class="mkp-field-val">2022/0025</span>
+                          </div>
+                          <div class="mkp-hint">Formato: AAAA/NNNN</div>
+                          <div class="mkp-outlined-field mkp-mt">
+                            <span class="mkp-float-label">Examinador</span>
+                            <div class="mkp-select-row">
+                              <span>Pablo Estrela</span><span class="mkp-chevron">▾</span>
+                            </div>
+                          </div>
+                          <div class="mkp-novo-link">+ NOVO EXAMINADOR</div>
                         </div>
-                        <div class="mkp-field">Examinador ▾</div>
-                        <div class="mkp-field">Filtros opcionais ▾</div>
-                        <div class="mkp-calc-btn">⊞ CALCULAR FREQUÊNCIA</div>
+                        <!-- Filtros -->
+                        <div class="mkp-card mkp-card--sm mkp-mt-sm">
+                          <div class="mkp-select-row mkp-select-row--flat">
+                            <span>Filtros opcionais</span><span class="mkp-chevron">▾</span>
+                          </div>
+                        </div>
+                        <!-- Calcular -->
+                        <div class="mkp-calc-btn mkp-mt-sm">⊞ CALCULAR FREQUÊNCIA</div>
                       </div>
-                      <!-- Painel direito: diagrama real escalado -->
+
+                      <!-- Painel direito: Odontogram real escalado -->
                       <div class="mkp-right">
-                        <div class="mkp-section-label">Diagrama Odontológico</div>
-                        <div class="mkp-odonto-clip">
-                          <div class="mkp-odonto-scale">
-                            <Odontogram mode="readonly" />
+                        <div class="mkp-card mkp-card--full">
+                          <div class="mkp-card-header">
+                            <span class="mkp-card-title">Diagrama Odontológico</span>
+                            <span class="mkp-card-sub">0 dentes selecionados</span>
+                          </div>
+                          <div class="mkp-odonto-clip">
+                            <div class="mkp-odonto-scale">
+                              <Odontogram mode="edit" />
+                            </div>
                           </div>
                         </div>
                       </div>
+
                     </div>
                   </div>
                 </div>
@@ -316,43 +339,52 @@ const steps = [
   flex-direction: column;
   align-items: center;
   width: 100%;
-  max-width: 500px;
+  max-width: 540px;
 }
 
 .monitor-frame {
   width: 100%;
-  background: #1e1e1e;
-  border-radius: 12px;
-  padding: 10px 10px 6px;
-  box-shadow: 0 24px 64px rgba(0,0,0,0.22), 0 4px 16px rgba(0,0,0,0.12);
+  background: linear-gradient(180deg, #e4e4e4 0%, #d0d0d0 100%);
+  border-radius: 14px;
+  padding: 10px 10px 10px;
+  border: 1.5px solid #c0c0c0;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.85),
+    0 24px 72px rgba(0,0,0,0.20),
+    0 6px 18px rgba(0,0,0,0.10);
 }
 
 .monitor-camera {
   width: 7px;
   height: 7px;
-  background: #444;
+  background: #a8a8a8;
   border-radius: 50%;
-  margin: 0 auto 6px;
+  margin: 0 auto 8px;
+  border: 1px solid #909090;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.25);
 }
 
 .monitor-screen {
-  background: #fff;
+  background: linear-gradient(160deg, #f0f9fa 0%, #ffffff 55%);
   border-radius: 6px;
   overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.10);
 }
 
 .monitor-neck {
-  width: 56px;
-  height: 28px;
-  background: #1e1e1e;
-  clip-path: polygon(25% 0%, 75% 0%, 100% 100%, 0% 100%);
+  width: 64px;
+  height: 30px;
+  background: linear-gradient(180deg, #d4d4d4 0%, #c4c4c4 100%);
+  clip-path: polygon(28% 0%, 72% 0%, 100% 100%, 0% 100%);
 }
 
 .monitor-foot {
-  width: 130px;
-  height: 10px;
-  background: #1e1e1e;
-  border-radius: 5px;
+  width: 200px;
+  height: 12px;
+  background: linear-gradient(180deg, #cccccc 0%, #b8b8b8 100%);
+  border-radius: 0 0 8px 8px;
+  border: 1px solid #b0b0b0;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
 }
 
 /* ── App mockup (inside monitor) ───────────────────────── */
@@ -382,99 +414,145 @@ const steps = [
 
 .mockup-body--grid {
   display: grid;
-  grid-template-columns: 110px 1fr;
-  gap: 8px;
-  padding: 8px 12px 6px;
+  grid-template-columns: 145px 1fr;
+  gap: 10px;
+  padding: 10px 12px 12px;
 }
 
-/* ── Painel esquerdo (formulário) ───────────────────────── */
+/* ── Painel esquerdo ────────────────────────────────────── */
 .mkp-left {
   display: flex;
   flex-direction: column;
-  gap: 5px;
 }
 
-.mkp-section-label {
-  font-size: 9px;
-  font-weight: 700;
-  color: #1A5C6A;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 2px;
+/* Card genérico */
+.mkp-card {
+  border: 1px solid #e0e7ea;
+  border-radius: 6px;
+  background: #fff;
+  padding: 8px 10px;
 }
 
-.mkp-nic-row {
+.mkp-card--sm {
+  padding: 7px 10px;
+}
+
+.mkp-card--full {
+  height: 100%;
   display: flex;
-  align-items: center;
-  gap: 3px;
+  flex-direction: column;
 }
 
-.mkp-field-xs {
-  background: #f5f7f8;
-  border: 1px solid #e0e7ea;
-  border-radius: 4px;
-  padding: 3px 5px;
-  font-size: 9px;
+.mkp-card-title {
+  font-size: 10px;
+  font-weight: 600;
   color: #37474f;
-  flex: 1;
-  white-space: nowrap;
+  margin-bottom: 7px;
 }
 
-.mkp-sep {
-  font-size: 11px;
+.mkp-card-header {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 4px;
+}
+
+.mkp-card-sub {
+  font-size: 8px;
   color: #90a4ae;
-  line-height: 1;
 }
 
-.mkp-field {
-  background: #f5f7f8;
-  border: 1px solid #e0e7ea;
+/* Campos outlined (imitam Vuetify outlined) */
+.mkp-outlined-field {
+  border: 1px solid #b0bec5;
   border-radius: 4px;
-  padding: 4px 7px;
-  font-size: 9px;
-  color: #37474f;
+  padding: 4px 7px 3px;
+  position: relative;
 }
+
+.mkp-float-label {
+  display: block;
+  font-size: 7px;
+  color: #607d8b;
+  line-height: 1;
+  margin-bottom: 1px;
+}
+
+.mkp-field-val {
+  font-size: 9.5px;
+  color: #263238;
+  font-weight: 500;
+}
+
+.mkp-hint {
+  font-size: 7px;
+  color: #90a4ae;
+  margin-top: 2px;
+  margin-bottom: 4px;
+  padding-left: 1px;
+}
+
+.mkp-select-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 9.5px;
+  color: #263238;
+}
+
+.mkp-select-row--flat {
+  font-size: 9.5px;
+}
+
+.mkp-chevron {
+  font-size: 8px;
+  color: #90a4ae;
+}
+
+.mkp-novo-link {
+  font-size: 8px;
+  color: #1A5C6A;
+  font-weight: 600;
+  margin-top: 5px;
+  cursor: default;
+}
+
+.mkp-mt   { margin-top: 6px; }
+.mkp-mt-sm { margin-top: 6px; }
 
 .mkp-calc-btn {
   background: #1A5C6A;
   color: white;
   border-radius: 5px;
-  padding: 6px 4px;
+  padding: 8px 4px;
   text-align: center;
-  font-size: 7.5px;
+  font-size: 8px;
   font-weight: 700;
-  letter-spacing: 0.2px;
+  letter-spacing: 0.4px;
   cursor: default;
-  margin-top: 4px;
 }
 
-/* ── Painel direito (diagrama real escalado) ─────────────── */
+/* ── Painel direito (Odontogram real escalado) ───────────── */
 .mkp-right {
-  display: flex;
-  flex-direction: column;
   min-width: 0;
   overflow: hidden;
 }
 
-/* Container que recorta a área visível após o scale */
 .mkp-odonto-clip {
   position: relative;
-  /* altura visível = altura real do componente × fator de escala
-     Odontogram readonly: ~510px × 0.52 ≈ 265px */
-  height: 265px;
+  /* Altura visível = altura natural do Odontogram (edit, ~588px) × scale (0.74) ≈ 435px */
+  height: 435px;
   overflow: hidden;
+  flex: 1;
 }
 
-/* Elemento que aplica o zoom para caber no monitor */
 .mkp-odonto-scale {
   position: absolute;
   top: 0;
   left: 0;
-  transform: scale(0.52);
+  /* Largura natural do Odontogram: SVG(280) + gap(20) + legenda(148) = 448px */
+  width: 448px;
+  transform: scale(0.74);
   transform-origin: top left;
-  /* Largura real do componente: SVG 280px + legenda 148px + gap 20px = 448px.
-     Para não clipar horizontalmente: 448px / 0.52 ≈ 862px → definimos como largura fixa */
-  width: 862px;
   pointer-events: none;
 }
 
