@@ -69,7 +69,9 @@
                             <span class="mkp-slash">/</span>
                             <div class="mkp-outlined-field mkp-field--num">
                               <span class="mkp-float-label">Número</span>
-                              <span class="mkp-placeholder">0001</span>
+                              <div class="mkp-select-row">
+                                <span class="mkp-placeholder">0001</span>
+                              </div>
                             </div>
                           </div>
                           <!-- Filtros opcionais -->
