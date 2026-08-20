@@ -417,7 +417,7 @@ const steps = [
 
 .mockup-body--grid {
   display: grid;
-  grid-template-columns: 150px 1fr;
+  grid-template-columns: 200px 1fr;
   gap: 12px;
   padding: 10px 14px 14px;
 }
