@@ -188,7 +188,7 @@
               Plataforma de apoio à identificação em Odontologia Legal.
             </p>
             <div class="footer-socials mt-4">
-              <a href="mailto:odontoperitus@ccs.ufpb.br" class="social-link" title="E-mail">
+              <a href="mailto:contato@odontoperitus.com.br" class="social-link" title="E-mail">
                 <v-icon icon="mdi-email-outline" size="22" />
               </a>
             </div>
@@ -222,7 +222,7 @@
             <ul class="footer-list">
               <li>
                 <v-icon icon="mdi-email-outline" size="14" class="mr-1" />
-                odontoperitus@ccs.ufpb.br
+                contato@odontoperitus.com.br
               </li>
               <li>
                 <v-icon icon="mdi-phone-outline" size="14" class="mr-1" />
