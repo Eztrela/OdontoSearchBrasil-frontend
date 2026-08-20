@@ -551,15 +551,15 @@ const steps = [
   height: 310px;
   overflow: hidden;
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: flex-start;
 }
 
 .mkp-odonto-scale {
   flex-shrink: 0;
-  width: 448px;
+  width: 840px;
   transform: scale(0.52);
-  transform-origin: top right;
+  transform-origin: top left;
   pointer-events: none;
 }
 
