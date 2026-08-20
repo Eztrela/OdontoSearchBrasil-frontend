@@ -551,7 +551,7 @@ const steps = [
   height: 310px;
   overflow: hidden;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: flex-start;
 }
 
@@ -559,7 +559,7 @@ const steps = [
   flex-shrink: 0;
   width: 448px;
   transform: scale(0.52);
-  transform-origin: top center;
+  transform-origin: top right;
   pointer-events: none;
 }
 

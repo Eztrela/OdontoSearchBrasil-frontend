@@ -374,7 +374,7 @@ const LEGEND = [
 .arch-btns {
   display: flex;
   gap: 8px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: center;
 }
 
