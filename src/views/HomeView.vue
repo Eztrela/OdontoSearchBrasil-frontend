@@ -467,8 +467,8 @@ const steps = [
 }
 
 .mkp-field--ano {
-  min-width: 55px;
-  max-width: 55px;
+  min-width: 72px;
+  max-width: 72px;
 }
 
 .mkp-field--num {
@@ -557,7 +557,7 @@ const steps = [
 
 .mkp-odonto-scale {
   flex-shrink: 0;
-  width: 840px;
+  width: 760px;
   transform: scale(0.52);
   transform-origin: top left;
   pointer-events: none;
