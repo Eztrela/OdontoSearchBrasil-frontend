@@ -374,7 +374,7 @@ const LEGEND = [
 .arch-btns {
   display: flex;
   gap: 8px;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   justify-content: center;
 }
 
@@ -460,5 +460,25 @@ const LEGEND = [
 
 .legend-text {
   white-space: nowrap;
+}
+
+@media (max-width: 540px) {
+  .odontogram-wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .odontogram-main {
+    width: 100%;
+  }
+
+  .legend-side {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+    min-width: 0;
+    width: 100%;
+    padding-top: 0;
+  }
 }
 </style>
