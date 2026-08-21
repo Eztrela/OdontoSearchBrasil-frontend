@@ -264,7 +264,7 @@ const features = [
   {
     icon: 'mdi-chart-bar',
     title: 'Base Científica',
-    desc: 'Baseado nos dados do SB Brasil 2023, com 33.512 participantes representando a população brasileira adulta.',
+    desc: 'Baseada nos dados do SB Brasil 2023, com 33.512 participantes representando a população brasileira adulta.',
   },
   {
     icon: 'mdi-account-outline',
@@ -274,7 +274,7 @@ const features = [
   {
     icon: 'mdi-school',
     title: 'Desenvolvimento',
-    desc: 'Desenvolvido no Programa de Pós-Graduação em Odontologia da UFPB com rigor metodológico e validação científica.',
+    desc: 'Desenvolvida no Programa de Pós-Graduação em Odontologia da UFPB com rigor metodológico e validação científica.',
   },
 ]
 
@@ -802,10 +802,10 @@ const steps = [
 
 .footer-bottom {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 8px;
+  text-align: center;
+  gap: 4px;
   padding-bottom: 28px;
   font-size: 0.8rem;
   color: rgba(255,255,255,0.45);
@@ -848,9 +848,5 @@ const steps = [
     text-align: center;
   }
 
-  .footer-bottom {
-    flex-direction: column;
-    text-align: center;
-  }
 }
 </style>
