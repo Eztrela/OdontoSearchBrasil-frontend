@@ -28,7 +28,7 @@
                 Acessar Plataforma
               </v-btn>
               <v-btn
-                href="#sobre"
+                :to="{ name: 'guia' }"
                 variant="outlined"
                 color="primary"
                 size="large"
