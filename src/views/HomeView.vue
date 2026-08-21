@@ -274,7 +274,7 @@ const features = [
   {
     icon: 'mdi-school',
     title: 'Desenvolvimento',
-    desc: 'Desenvolvido no PPGO da UFPB com rigor metodológico e validação científica.',
+    desc: 'Desenvolvido no Programa de Pós-Graduação em Odontologia da UFPB com rigor metodológico e validação científica.',
   },
 ]
 
