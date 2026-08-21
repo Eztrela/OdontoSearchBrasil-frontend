@@ -1,6 +1,6 @@
 <template>
   <v-container class="d-flex justify-center align-center py-8">
-    <v-card width="480" rounded="xl" elevation="4" class="pa-2">
+    <v-card width="100%" max-width="480" rounded="xl" elevation="4" class="pa-2">
       <v-card-text class="pa-6 pb-4">
 
         <div class="text-center mb-6">

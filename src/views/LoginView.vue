@@ -1,6 +1,6 @@
 <template>
   <v-container class="d-flex justify-center align-center" style="min-height: 80vh">
-    <v-card width="420" rounded="xl" elevation="4" class="pa-2">
+    <v-card width="100%" max-width="420" rounded="xl" elevation="4" class="pa-2">
       <v-card-text class="pa-6 pb-4">
 
         <div class="text-center mb-6">
@@ -147,10 +147,11 @@ onMounted(() => {
   const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID
   if (!clientId || !window.google) return
   window.google.accounts.id.initialize({ client_id: clientId, callback: handleGoogle })
-  window.google.accounts.id.renderButton(
-    document.getElementById('google-btn-login'),
-    { theme: 'outline', size: 'large', text: 'signin_with', width: 360 },
-  )
+  requestAnimationFrame(() => {
+    const el = document.getElementById('google-btn-login')
+    const width = el ? Math.min(360, el.clientWidth) : 300
+    window.google.accounts.id.renderButton(el, { theme: 'outline', size: 'large', text: 'signin_with', width })
+  })
 })
 
 async function handleGoogle(response: { credential: string }) {

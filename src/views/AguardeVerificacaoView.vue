@@ -1,6 +1,6 @@
 <template>
   <v-container class="d-flex justify-center align-center" style="min-height: 80vh">
-    <v-card width="460" rounded="xl" elevation="4" class="pa-2 text-center">
+    <v-card width="100%" max-width="460" rounded="xl" elevation="4" class="pa-2 text-center">
       <v-card-text class="pa-8">
         <v-icon icon="mdi-email-fast-outline" size="56" color="primary" class="mb-4" />
         <div class="text-h6 font-weight-bold mb-2">Verifique seu e-mail</div>

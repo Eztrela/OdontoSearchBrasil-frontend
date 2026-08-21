@@ -2,7 +2,7 @@
   <div class="relatorio-page">
 
     <!-- Screen-only header -->
-    <div class="d-flex align-center mb-5 no-print">
+    <div class="d-flex align-center flex-wrap gap-2 mb-5 no-print">
       <v-btn
         icon="mdi-arrow-left"
         variant="text"

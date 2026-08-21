@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="d-flex align-center mb-6">
+    <div class="d-flex align-center flex-wrap gap-2 mb-6">
       <h1 class="text-h5 font-weight-bold">
         <v-icon icon="mdi-history" class="mr-2" color="primary" />
         Histórico de Buscas
@@ -24,6 +24,7 @@
         :loading="loading"
         loading-text="Carregando buscas..."
         no-data-text="Nenhuma busca encontrada"
+        :mobile-breakpoint="600"
         hover
         @click:row="onRowClick"
       >

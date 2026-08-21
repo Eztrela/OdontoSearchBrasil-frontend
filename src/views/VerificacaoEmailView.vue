@@ -1,6 +1,6 @@
 <template>
   <v-container class="d-flex justify-center align-center" style="min-height: 80vh">
-    <v-card width="440" rounded="xl" elevation="4" class="pa-2 text-center">
+    <v-card width="100%" max-width="440" rounded="xl" elevation="4" class="pa-2 text-center">
       <v-card-text class="pa-8">
 
         <template v-if="status === 'pending'">

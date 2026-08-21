@@ -4,7 +4,7 @@
     <!-- ── Hero ───────────────────────────────────────────── -->
     <section id="inicio" class="hero-section">
       <v-container max-width="1200" class="hero-container">
-        <v-row align="center" class="fill-height" style="min-height: 88vh">
+        <v-row align="center" class="fill-height hero-row">
 
           <!-- Left: text -->
           <v-col cols="12" md="5" class="hero-text">
@@ -41,7 +41,7 @@
           </v-col>
 
           <!-- Right: monitor mockup -->
-          <v-col cols="12" md="7" class="d-flex justify-center align-center">
+          <v-col cols="12" md="7" class="d-none d-md-flex justify-center align-center">
             <div class="monitor-wrapper">
               <div class="monitor-frame">
                 <div class="monitor-camera" />
@@ -312,6 +312,10 @@ const steps = [
   background-image:
     linear-gradient(150deg, #ffffff 50%, #e8f6f8 100%);
   padding: 40px 0 60px;
+}
+
+.hero-row {
+  min-height: 88vh;
 }
 
 .hero-logo {
@@ -814,6 +818,10 @@ const steps = [
 
 /* ── Responsive ─────────────────────────────────────────── */
 @media (max-width: 959px) {
+  .hero-row {
+    min-height: auto;
+  }
+
   .hero-section {
     padding: 48px 0;
     text-align: center;

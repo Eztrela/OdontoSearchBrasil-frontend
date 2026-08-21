@@ -156,7 +156,7 @@
     </template>
 
     <!-- Edit dialog -->
-    <v-dialog v-model="editDialog" max-width="960" scrollable>
+    <v-dialog v-model="editDialog" max-width="960" :fullscreen="$vuetify.display.smAndDown" scrollable>
       <v-card>
         <v-card-title class="pa-4 pb-2">
           Editar Busca — NIC {{ busca?.nic }}
