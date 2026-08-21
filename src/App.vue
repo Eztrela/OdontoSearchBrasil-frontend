@@ -128,10 +128,17 @@
       </div>
     </v-main>
 
-    <v-footer v-if="route.name !== 'home'" color="primary" class="text-center d-flex justify-center py-3">
-      <span class="text-body-2 text-white">
-        Odontoperitus &copy; {{ new Date().getFullYear() }} — Identificação Forense por Padrão Dentário
-      </span>
+    <v-footer v-if="route.name !== 'home'" color="primary" class="py-3">
+      <v-container class="d-flex flex-column align-center" style="gap: 4px">
+        <span class="text-body-2 text-white">
+          &copy; {{ new Date().getFullYear() }} OdontoPeritus. Todos os direitos reservados.
+        </span>
+        <div class="d-flex align-center">
+          <a href="#" class="text-caption footer-app-link">Política de Privacidade</a>
+          <span class="mx-2 text-caption" style="color: rgba(255,255,255,0.45)">·</span>
+          <a href="#" class="text-caption footer-app-link">Termos de Uso</a>
+        </div>
+      </v-container>
     </v-footer>
   </v-app>
 </template>
@@ -355,6 +362,17 @@ html {
 .user-btn:hover {
   background: #1A5C6A;
   color: #ffffff;
+}
+
+/* ── App footer links ────────────────────────────────── */
+.footer-app-link {
+  color: rgba(255, 255, 255, 0.65);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-app-link:hover {
+  color: rgba(255, 255, 255, 0.95);
 }
 
 /* ── Mobile hamburger ────────────────────────────────── */
