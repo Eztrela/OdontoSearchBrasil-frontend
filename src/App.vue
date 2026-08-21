@@ -130,13 +130,13 @@
 
     <v-footer v-if="route.name !== 'home'" class="py-3" style="background: #0f3840">
       <v-container class="d-flex flex-column align-center text-center" style="gap: 4px">
-        <span class="text-body-2" style="color: rgba(255,255,255,0.45)">
+        <span style="font-size: 0.8rem; color: rgba(255,255,255,0.45)">
           &copy; {{ new Date().getFullYear() }} OdontoPeritus. Todos os direitos reservados.
         </span>
         <div class="d-flex align-center">
-          <a href="#" class="text-caption footer-app-link">Política de Privacidade</a>
-          <span class="mx-2 text-caption" style="color: rgba(255,255,255,0.45)">·</span>
-          <a href="#" class="text-caption footer-app-link">Termos de Uso</a>
+          <a href="#" class="footer-app-link" style="font-size: 0.8rem">Política de Privacidade</a>
+          <span class="mx-2" style="font-size: 0.8rem; color: rgba(255,255,255,0.45)">·</span>
+          <a href="#" class="footer-app-link" style="font-size: 0.8rem">Termos de Uso</a>
         </div>
       </v-container>
     </v-footer>
