@@ -128,7 +128,7 @@
       </div>
     </v-main>
 
-    <v-footer v-if="route.name !== 'home'" color="primary" class="py-3">
+    <v-footer v-if="route.name !== 'home'" class="py-3" style="background: #0f3840">
       <v-container class="d-flex flex-column align-center text-center" style="gap: 4px">
         <span class="text-body-2 text-white">
           &copy; {{ new Date().getFullYear() }} OdontoPeritus. Todos os direitos reservados.
